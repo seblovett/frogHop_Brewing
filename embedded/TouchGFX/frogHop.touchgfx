@@ -150,8 +150,8 @@
           },
           {
             "Type": "ButtonWithLabel",
-            "Pressed": "__designer\\Blue_Buttons_Round_Edge_small_pressed.png",
-            "Released": "__designer\\Blue_Buttons_Round_Edge_small.png",
+            "Pressed": "btn_round_pressed.png",
+            "Released": "btn_round.png",
             "Alpha": 255,
             "TextId": "SingleUseId16",
             "ReleasedColor": {
@@ -165,11 +165,10 @@
               "Blue": 255
             },
             "TextRotation": "0",
-            "Style": "Style4",
             "Name": "buttonDone",
-            "X": 310,
+            "X": 383,
             "Y": 212,
-            "Width": 170,
+            "Width": 97,
             "Height": 60,
             "Visible": true,
             "LockPosition": false,
@@ -196,6 +195,72 @@
           }
         ],
         "Name": "settings",
+        "OverrideDefaultBufferSize": false,
+        "CanvasBufferSize": 0
+      },
+      {
+        "Components": [
+          {
+            "Type": "Image",
+            "RelativeFilename": "background_Screen2.png",
+            "Alpha": 255,
+            "Name": "imageBackground",
+            "X": 0,
+            "Y": 0,
+            "Width": 480,
+            "Height": 272,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Image",
+            "RelativeFilename": "froghopCircle.png",
+            "Alpha": 255,
+            "Name": "Image2",
+            "X": 115,
+            "Y": 11,
+            "Width": 250,
+            "Height": 251,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "InteractionWait",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerScreenEntered"
+            },
+            "Action": {
+              "Type": "ActionDelay",
+              "Duration": 2000
+            }
+          },
+          {
+            "InteractionName": "InteractionSlide",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "InteractionWait"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionSlide",
+              "ScreenTransitionDirection": "South",
+              "ActionComponent": "home"
+            }
+          }
+        ],
+        "Name": "ScreenSplash",
         "OverrideDefaultBufferSize": false,
         "CanvasBufferSize": 0
       }
@@ -602,7 +667,7 @@
       "Height": 272
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "home",
+    "StartupScreenName": "ScreenSplash",
     "SelectedStartupLanguage": "GB",
     "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",

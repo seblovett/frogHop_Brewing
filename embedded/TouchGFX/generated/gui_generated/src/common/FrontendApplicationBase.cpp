@@ -13,6 +13,8 @@
 #include <gui/home_screen/homePresenter.hpp>
 #include <gui/settings_screen/settingsView.hpp>
 #include <gui/settings_screen/settingsPresenter.hpp>
+#include <gui/screensplash_screen/ScreenSplashView.hpp>
+#include <gui/screensplash_screen/ScreenSplashPresenter.hpp>
 
 using namespace touchgfx;
 
@@ -32,17 +34,6 @@ FrontendApplicationBase::FrontendApplicationBase(Model& m, FrontendHeap& heap)
  */
 
 // home
-
-void FrontendApplicationBase::gotohomeScreenNoTransition()
-{
-    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplication::gotohomeScreenNoTransitionImpl);
-    pendingScreenTransitionCallback = &transitionCallback;
-}
-
-void FrontendApplicationBase::gotohomeScreenNoTransitionImpl()
-{
-    touchgfx::makeTransition<homeView, homePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
-}
 
 void FrontendApplicationBase::gotohomeScreenSlideTransitionSouth()
 {
@@ -66,4 +57,17 @@ void FrontendApplicationBase::gotosettingsScreenSlideTransitionNorth()
 void FrontendApplicationBase::gotosettingsScreenSlideTransitionNorthImpl()
 {
     touchgfx::makeTransition<settingsView, settingsPresenter, touchgfx::SlideTransition<NORTH>, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
+}
+
+// ScreenSplash
+
+void FrontendApplicationBase::gotoScreenSplashScreenNoTransition()
+{
+    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplication::gotoScreenSplashScreenNoTransitionImpl);
+    pendingScreenTransitionCallback = &transitionCallback;
+}
+
+void FrontendApplicationBase::gotoScreenSplashScreenNoTransitionImpl()
+{
+    touchgfx::makeTransition<ScreenSplashView, ScreenSplashPresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
 }

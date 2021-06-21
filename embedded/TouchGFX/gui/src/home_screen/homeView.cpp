@@ -7,8 +7,19 @@ homeView::homeView()
 
 void homeView::setupScreen()
 {
-    recallKettleData();
     homeViewBase::setupScreen();
+    recallKettleData();
+    uint8_t id = presenter->getSelectedKettle();
+    if(id == 0)
+    {
+        buttonLeft.setVisible(false);
+        buttonLeft.invalidate();
+    }
+    else if (id == NUM_KETTLES - 1)
+    {
+        buttonRight.setVisible(false);
+        buttonRight.invalidate();
+    }
 }
 
 void homeView::tearDownScreen()
@@ -19,10 +30,9 @@ void homeView::tearDownScreen()
 
 void homeView::recallKettleData()
 {
+    touchgfx_printf("%s\n", __func__);
     kettle_data_t k; 
     k.id = presenter->getSelectedKettle();
-    touchgfx_printf("%s\n", __func__);
-    touchgfx_printf("k.id = %d\n", k.id);
     presenter->getKettle(&k);
     touchgfx_printf("k.id = %d\n", k.id);
     touchgfx_printf("k.setTemp = %d\n", k.setTemp);
@@ -36,10 +46,9 @@ void homeView::recallKettleData()
 
 void homeView::saveKettleData()
 {
+    touchgfx_printf("%s\n", __func__);
     kettle_data_t k; 
     k.id = presenter->getSelectedKettle();
-    touchgfx_printf("%s\n", __func__);
-    touchgfx_printf("k.id = %d\n", k.id);
     kettle1.getData(&k);
     touchgfx_printf("k.id = %d\n", k.id);
     touchgfx_printf("k.setTemp = %d\n", k.setTemp);

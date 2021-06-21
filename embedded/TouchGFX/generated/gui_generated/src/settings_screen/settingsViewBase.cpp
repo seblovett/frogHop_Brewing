@@ -16,8 +16,8 @@ settingsViewBase::settingsViewBase() :
     imageBackground.setXY(0, 0);
     imageBackground.setBitmap(touchgfx::Bitmap(BITMAP_BACKGROUND_SCREEN2_ID));
 
-    buttonDone.setXY(310, 212);
-    buttonDone.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_EDGE_SMALL_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_EDGE_SMALL_PRESSED_ID));
+    buttonDone.setXY(383, 212);
+    buttonDone.setBitmaps(touchgfx::Bitmap(BITMAP_BTN_ROUND_ID), touchgfx::Bitmap(BITMAP_BTN_ROUND_PRESSED_ID));
     buttonDone.setLabelText(touchgfx::TypedText(T_SINGLEUSEID16));
     buttonDone.setLabelColor(touchgfx::Color::getColorFrom24BitRGB(255, 255, 255));
     buttonDone.setLabelColorPressed(touchgfx::Color::getColorFrom24BitRGB(255, 255, 255));

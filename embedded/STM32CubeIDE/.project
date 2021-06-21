@@ -324,6 +324,16 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/model/Model.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/gui/ScreenSplashPresenter.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/screensplash_screen/ScreenSplashPresenter.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/ScreenSplashView.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/screensplash_screen/ScreenSplashView.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/gui/settingsPresenter.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/settings_screen/settingsPresenter.cpp</locationURI>
@@ -419,6 +429,11 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/home_screen/homeViewBase.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/generated/ScreenSplashViewBase.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/screensplash_screen/ScreenSplashViewBase.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/generated/settingsViewBase.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/settings_screen/settingsViewBase.cpp</locationURI>
@@ -502,6 +517,16 @@
 			<name>Application/User/generated/image_Down_arrow_pressed.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Down_arrow_pressed.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_froghop.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_froghop.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_froghopCircle.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_froghopCircle.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/image_heater_off.cpp</name>
@@ -597,16 +622,6 @@
 			<name>Application/User/generated/image_water-pump_on.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_water-pump_on.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Blue_Buttons_Round_Edge_small.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Buttons_Round_Edge_small.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Blue_Buttons_Round_Edge_small_pressed.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Buttons_Round_Edge_small_pressed.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.cpp</name>

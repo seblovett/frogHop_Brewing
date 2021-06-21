@@ -16,12 +16,13 @@ public:
     virtual ~FrontendApplicationBase() { }
 
     // home
-    void gotohomeScreenNoTransition();
-
     void gotohomeScreenSlideTransitionSouth();
 
     // settings
     void gotosettingsScreenSlideTransitionNorth();
+
+    // ScreenSplash
+    void gotoScreenSplashScreenNoTransition();
 
 protected:
     touchgfx::Callback<FrontendApplicationBase> transitionCallback;
@@ -29,12 +30,13 @@ protected:
     Model& model;
 
     // home
-    void gotohomeScreenNoTransitionImpl();
-
     void gotohomeScreenSlideTransitionSouthImpl();
 
     // settings
     void gotosettingsScreenSlideTransitionNorthImpl();
+
+    // ScreenSplash
+    void gotoScreenSplashScreenNoTransitionImpl();
 };
 
 #endif // FRONTENDAPPLICATIONBASE_HPP

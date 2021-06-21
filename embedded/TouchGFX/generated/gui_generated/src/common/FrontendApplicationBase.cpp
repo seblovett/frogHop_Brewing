@@ -11,6 +11,8 @@
 #include <platform/driver/lcd/LCD16bpp.hpp>
 #include <gui/home_screen/homeView.hpp>
 #include <gui/home_screen/homePresenter.hpp>
+#include <gui/settings_screen/settingsView.hpp>
+#include <gui/settings_screen/settingsPresenter.hpp>
 
 using namespace touchgfx;
 
@@ -40,4 +42,28 @@ void FrontendApplicationBase::gotohomeScreenNoTransition()
 void FrontendApplicationBase::gotohomeScreenNoTransitionImpl()
 {
     touchgfx::makeTransition<homeView, homePresenter, touchgfx::NoTransition, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
+}
+
+void FrontendApplicationBase::gotohomeScreenSlideTransitionSouth()
+{
+    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplication::gotohomeScreenSlideTransitionSouthImpl);
+    pendingScreenTransitionCallback = &transitionCallback;
+}
+
+void FrontendApplicationBase::gotohomeScreenSlideTransitionSouthImpl()
+{
+    touchgfx::makeTransition<homeView, homePresenter, touchgfx::SlideTransition<SOUTH>, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
+}
+
+// settings
+
+void FrontendApplicationBase::gotosettingsScreenSlideTransitionNorth()
+{
+    transitionCallback = touchgfx::Callback<FrontendApplicationBase>(this, &FrontendApplication::gotosettingsScreenSlideTransitionNorthImpl);
+    pendingScreenTransitionCallback = &transitionCallback;
+}
+
+void FrontendApplicationBase::gotosettingsScreenSlideTransitionNorthImpl()
+{
+    touchgfx::makeTransition<settingsView, settingsPresenter, touchgfx::SlideTransition<NORTH>, Model >(&currentScreen, &currentPresenter, frontendHeap, &currentTransition, &model);
 }

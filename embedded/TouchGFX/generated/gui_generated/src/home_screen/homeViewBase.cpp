@@ -5,27 +5,64 @@
 #include <touchgfx/Color.hpp>
 #include "BitmapDatabase.hpp"
 
-homeViewBase::homeViewBase()
+homeViewBase::homeViewBase() :
+    buttonCallback(this, &homeViewBase::buttonCallbackHandler)
 {
 
     __background.setPosition(0, 0, 480, 272);
     __background.setColor(touchgfx::Color::getColorFrom24BitRGB(0, 0, 0));
 
-    image1.setXY(0, 0);
-    image1.setBitmap(touchgfx::Bitmap(BITMAP_BACKGROUND_SCREEN2_ID));
+    imageBackground.setXY(0, 0);
+    imageBackground.setBitmap(touchgfx::Bitmap(BITMAP_BACKGROUND_SCREEN2_ID));
 
     kettle1.setXY(0, 0);
 
-    button1.setXY(427, 5);
-    button1.setBitmaps(touchgfx::Bitmap(BITMAP_CONFIGURATION_ID), touchgfx::Bitmap(BITMAP_CONFIGURATION_ID));
+    buttonSettings.setXY(427, 5);
+    buttonSettings.setBitmaps(touchgfx::Bitmap(BITMAP_CONFIGURATION_ID), touchgfx::Bitmap(BITMAP_CONFIGURATION_ID));
+    buttonSettings.setAction(buttonCallback);
+
+    buttonLeft.setXY(117, 13);
+    buttonLeft.setBitmaps(touchgfx::Bitmap(BITMAP_LEFTARROW_ID), touchgfx::Bitmap(BITMAP_LEFT_ARROW_PRESSED_ID));
+    buttonLeft.setAction(buttonCallback);
+
+    buttonRight.setXY(343, 13);
+    buttonRight.setBitmaps(touchgfx::Bitmap(BITMAP_RIGHT_ARROW_ID), touchgfx::Bitmap(BITMAP_RIGHT_ARROW_PRESSED_ID));
+    buttonRight.setAction(buttonCallback);
 
     add(__background);
-    add(image1);
+    add(imageBackground);
     add(kettle1);
-    add(button1);
+    add(buttonSettings);
+    add(buttonLeft);
+    add(buttonRight);
 }
 
 void homeViewBase::setupScreen()
 {
     kettle1.initialize();
+}
+
+void homeViewBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
+{
+    if (&src == &buttonSettings)
+    {
+        //InteractionGoToSettings
+        //When buttonSettings clicked change screen to settings
+        //Go to settings with screen transition towards North
+        application().gotosettingsScreenSlideTransitionNorth();
+    }
+    else if (&src == &buttonLeft)
+    {
+        //InteractionKettleLeft
+        //When buttonLeft clicked call virtual function
+        //Call functionButtonLeft
+        functionButtonLeft();
+    }
+    else if (&src == &buttonRight)
+    {
+        //InteractionKettleRight
+        //When buttonRight clicked call virtual function
+        //Call functionKettleRight
+        functionKettleRight();
+    }
 }

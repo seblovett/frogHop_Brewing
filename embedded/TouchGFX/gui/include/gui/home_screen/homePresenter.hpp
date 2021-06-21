@@ -27,6 +27,29 @@ public:
 
     virtual ~homePresenter() {};
 
+
+    void setKettle(kettle_data_t *kettle)
+    {
+        model->setKettle(kettle);
+    }
+
+    void getKettle(kettle_data_t *kettle)
+    {
+        model->getKettle(kettle);
+    }
+
+    void setSelectedKettle(uint8_t kettle)
+    {
+        model->setSelectedKettle(kettle);
+    }
+
+    uint8_t getSelectedKettle()
+    {
+        return model->getSelectedKettle();
+    }
+
+    
+
 private:
     homePresenter();
 

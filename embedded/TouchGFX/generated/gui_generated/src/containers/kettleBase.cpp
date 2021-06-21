@@ -8,7 +8,8 @@
 
 kettleBase::kettleBase() :
     buttonCallback(this, &kettleBase::buttonCallbackHandler),
-    sliderValueChangedCallback(this, &kettleBase::sliderValueChangedCallbackHandler)
+    sliderValueChangedCallback(this, &kettleBase::sliderValueChangedCallbackHandler),
+    sliderValueConfirmedCallback(this, &kettleBase::sliderValueConfirmedCallbackHandler)
 {
     setWidth(480);
     setHeight(272);
@@ -19,12 +20,11 @@ kettleBase::kettleBase() :
     image1.setXY(192, 73);
     image1.setBitmap(touchgfx::Bitmap(BITMAP_PAN_ID));
 
-    kettleName.setXY(164, 0);
+    kettleName.setPosition(182, 0, 117, 49);
     kettleName.setColor(touchgfx::Color::getColorFrom24BitRGB(196, 196, 196));
     kettleName.setLinespacing(0);
     Unicode::snprintf(kettleNameBuffer, KETTLENAME_SIZE, "%s", touchgfx::TypedText(T_SINGLEUSEID13).getText());
     kettleName.setWildcard(kettleNameBuffer);
-    kettleName.resizeToCurrentText();
     kettleName.setTypedText(touchgfx::TypedText(T_SINGLEUSEID1));
 
     heaterToggle.setXY(304, 146);
@@ -37,6 +37,7 @@ kettleBase::kettleBase() :
     sliderTemperature.setValueRange(0, 100);
     sliderTemperature.setValue(0);
     sliderTemperature.setNewValueCallback(sliderValueChangedCallback);
+    sliderTemperature.setStopValueCallback(sliderValueConfirmedCallback);
 
     textSetTemp.setXY(101, 111);
     textSetTemp.setColor(touchgfx::Color::getColorFrom24BitRGB(196, 196, 196));
@@ -76,12 +77,6 @@ kettleBase::kettleBase() :
     textAreaTimerLabel.setLinespacing(0);
     textAreaTimerLabel.setTypedText(touchgfx::TypedText(T_SINGLEUSEID15));
 
-    button1.setXY(118, 8);
-    button1.setBitmaps(touchgfx::Bitmap(BITMAP_LEFTARROW_ID), touchgfx::Bitmap(BITMAP_LEFT_ARROW_PRESSED_ID));
-
-    button2.setXY(304, 8);
-    button2.setBitmaps(touchgfx::Bitmap(BITMAP_RIGHT_ARROW_ID), touchgfx::Bitmap(BITMAP_RIGHT_ARROW_PRESSED_ID));
-
     add(pumpToggle);
     add(image1);
     add(kettleName);
@@ -93,16 +88,9 @@ kettleBase::kettleBase() :
     add(textAreaTempLabel);
     add(timer);
     add(textAreaTimerLabel);
-    add(button1);
-    add(button2);
 }
 
 void kettleBase::initialize()
-{
-
-}
-
-void kettleBase::actionHeaterChange(bool value)
 {
 
 }
@@ -113,6 +101,11 @@ void kettleBase::actionPumpChange(bool value)
 }
 
 void kettleBase::actionSetTempChange(uint8_t value)
+{
+
+}
+
+void kettleBase::actionHeaterChange(bool value)
 {
 
 }
@@ -139,8 +132,20 @@ void kettleBase::sliderValueChangedCallbackHandler(const touchgfx::Slider& src, 
 {
     if (&src == &sliderTemperature)
     {
+        //InteractionSetTempUpdate
+        //When sliderTemperature value changed execute C++ code
+        //Execute C++ code
+        Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, "%d", value);
+        textSetTemp.invalidate();
+    }
+}
+
+void kettleBase::sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value)
+{
+    if (&src == &sliderTemperature)
+    {
         //InteractionSetTemperature
-        //When sliderTemperature value changed call actionSetTempChange on kettle
+        //When sliderTemperature value confirmed call actionSetTempChange on kettle
         //Call actionSetTempChange
         actionSetTempChange(value);
     }

@@ -18,6 +18,11 @@ public:
     // home
     void gotohomeScreenNoTransition();
 
+    void gotohomeScreenSlideTransitionSouth();
+
+    // settings
+    void gotosettingsScreenSlideTransitionNorth();
+
 protected:
     touchgfx::Callback<FrontendApplicationBase> transitionCallback;
     FrontendHeap& frontendHeap;
@@ -25,6 +30,11 @@ protected:
 
     // home
     void gotohomeScreenNoTransitionImpl();
+
+    void gotohomeScreenSlideTransitionSouthImpl();
+
+    // settings
+    void gotosettingsScreenSlideTransitionNorthImpl();
 };
 
 #endif // FRONTENDAPPLICATIONBASE_HPP

@@ -187,6 +187,18 @@
     <Filter Include="Header Files\generated\gui_generated\home_screen">
       <UniqueIdentifier>F4716A8D-E04B-8698-40A9-E4E4FD50B4BA</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\settings_screen">
+      <UniqueIdentifier>C57C8F31-E6A0-A3A7-F6A1-C1D8278D6E35</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\settings_screen">
+      <UniqueIdentifier>53380118-CF3C-BD2E-31BD-1C660D3DE1DA</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\generated\gui_generated\settings_screen">
+      <UniqueIdentifier>782472B9-8186-AC52-D13D-141CE0166129</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\generated\gui_generated\settings_screen">
+      <UniqueIdentifier>2E07F300-32FD-E807-7B8D-4C98D931D5BD</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(TouchGFXReleasePath)\framework\source\platform\driver\touch\SDL2TouchController.cpp">
@@ -230,6 +242,15 @@
     </ClCompile>
     <ClCompile Include="..\..\generated\gui_generated\src\containers\kettleBase.cpp">
       <Filter>Source Files\generated\gui_generated\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\settings_screen\settingsPresenter.cpp">
+      <Filter>Source Files\gui\settings_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui\src\settings_screen\settingsView.cpp">
+      <Filter>Source Files\gui\settings_screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generated\gui_generated\src\settings_screen\settingsViewBase.cpp">
+      <Filter>Source Files\generated\gui_generated\settings_screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -681,6 +702,18 @@
     </ClInclude>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\kettleBase.hpp">
       <Filter>Header Files\generated\gui_generated\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\settings_screen\settingsPresenter.hpp">
+      <Filter>Header Files\gui\settings_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\settings_screen\settingsView.hpp">
+      <Filter>Header Files\gui\settings_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\settings_screen\settingsViewBase.hpp">
+      <Filter>Header Files\generated\gui_generated\settings_screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui\include\gui\model\kettle_data.h">
+      <Filter>Source Files\gui\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

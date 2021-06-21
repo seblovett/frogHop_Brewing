@@ -25,6 +25,9 @@
     <ClCompile Include="..\..\generated\gui_generated\src\home_screen\homeViewBase.cpp"/>
     <ClCompile Include="..\..\gui\src\containers\kettle.cpp"/>
     <ClCompile Include="..\..\generated\gui_generated\src\containers\kettleBase.cpp"/>
+    <ClCompile Include="..\..\gui\src\settings_screen\settingsPresenter.cpp"/>
+    <ClCompile Include="..\..\gui\src\settings_screen\settingsView.cpp"/>
+    <ClCompile Include="..\..\generated\gui_generated\src\settings_screen\settingsViewBase.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(ApplicationRoot)\assets\texts\texts.xlsx"/>
@@ -178,6 +181,10 @@
     <ClInclude Include="..\..\gui\include\gui\home_screen\homeView.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\home_screen\homeViewBase.hpp"/>
     <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\containers\kettleBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\settings_screen\settingsPresenter.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\settings_screen\settingsView.hpp"/>
+    <ClInclude Include="..\..\generated\gui_generated\include\gui_generated\settings_screen\settingsViewBase.hpp"/>
+    <ClInclude Include="..\..\gui\include\gui\model\kettle_data.h"/>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(ApplicationRoot)\generated\simulator\touchgfx.rc"/>

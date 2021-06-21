@@ -12,7 +12,6 @@
 #include <touchgfx/containers/Slider.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
 #include <touchgfx/containers/clock/DigitalClock.hpp>
-#include <touchgfx/widgets/Button.hpp>
 
 class kettleBase : public touchgfx::Container
 {
@@ -24,9 +23,9 @@ public:
     /*
      * Custom Actions
      */
-    virtual void actionHeaterChange(bool value);
     virtual void actionPumpChange(bool value);
     virtual void actionSetTempChange(uint8_t value);
+    virtual void actionHeaterChange(bool value);
 
 protected:
     FrontendApplication& application() {
@@ -47,8 +46,6 @@ protected:
     touchgfx::TextArea textAreaTempLabel;
     touchgfx::DigitalClock timer;
     touchgfx::TextArea textAreaTimerLabel;
-    touchgfx::Button button1;
-    touchgfx::Button button2;
 
     /*
      * Wildcard Buffers
@@ -67,12 +64,14 @@ private:
      */
     touchgfx::Callback<kettleBase, const touchgfx::AbstractButton&> buttonCallback;
     touchgfx::Callback<kettleBase, const touchgfx::Slider&, int> sliderValueChangedCallback;
+    touchgfx::Callback<kettleBase, const touchgfx::Slider&, int> sliderValueConfirmedCallback;
 
     /*
      * Callback Handler Declarations
      */
     void buttonCallbackHandler(const touchgfx::AbstractButton& src);
     void sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value);
+    void sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value);
 
 };
 

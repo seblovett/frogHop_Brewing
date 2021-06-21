@@ -7,7 +7,7 @@
             "Type": "Image",
             "RelativeFilename": "background_Screen2.png",
             "Alpha": 255,
-            "Name": "image1",
+            "Name": "imageBackground",
             "X": 0,
             "Y": 0,
             "Width": 480,
@@ -39,7 +39,7 @@
             "Pressed": "configuration.png",
             "Released": "configuration.png",
             "Alpha": 255,
-            "Name": "button1",
+            "Name": "buttonSettings",
             "X": 427,
             "Y": 5,
             "Width": 48,
@@ -50,10 +50,152 @@
             "Clickable": false,
             "Fadeable": false,
             "Moveable": false
+          },
+          {
+            "Type": "Button",
+            "Pressed": "Left_arrow_pressed.png",
+            "Released": "LeftArrow.png",
+            "Alpha": 255,
+            "Name": "buttonLeft",
+            "X": 117,
+            "Y": 13,
+            "Width": 19,
+            "Height": 32,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Button",
+            "Pressed": "Right_arrow_pressed.png",
+            "Released": "Right_arrow.png",
+            "Alpha": 255,
+            "Name": "buttonRight",
+            "X": 343,
+            "Y": 13,
+            "Width": 19,
+            "Height": 32,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
           }
         ],
-        "Interactions": [],
+        "Interactions": [
+          {
+            "InteractionName": "InteractionGoToSettings",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonSettings"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionSlide",
+              "ScreenTransitionDirection": "North",
+              "ActionComponent": "settings"
+            }
+          },
+          {
+            "InteractionName": "InteractionKettleLeft",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonLeft"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "functionButtonLeft"
+            }
+          },
+          {
+            "InteractionName": "InteractionKettleRight",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonRight"
+            },
+            "Action": {
+              "Type": "ActionCustom",
+              "FunctionName": "functionKettleRight"
+            }
+          }
+        ],
         "Name": "home",
+        "OverrideDefaultBufferSize": false,
+        "CanvasBufferSize": 0
+      },
+      {
+        "Components": [
+          {
+            "Type": "Image",
+            "RelativeFilename": "background_Screen2.png",
+            "Alpha": 255,
+            "Name": "imageBackground",
+            "X": 0,
+            "Y": 0,
+            "Width": 480,
+            "Height": 272,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "ButtonWithLabel",
+            "Pressed": "__designer\\Blue_Buttons_Round_Edge_small_pressed.png",
+            "Released": "__designer\\Blue_Buttons_Round_Edge_small.png",
+            "Alpha": 255,
+            "TextId": "SingleUseId16",
+            "ReleasedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "PressedColor": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "TextRotation": "0",
+            "Style": "Style4",
+            "Name": "buttonDone",
+            "X": 310,
+            "Y": 212,
+            "Width": 170,
+            "Height": 60,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          }
+        ],
+        "Interactions": [
+          {
+            "InteractionName": "InteractionSettingsDone",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonDone"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionSlide",
+              "ScreenTransitionDirection": "South",
+              "ActionComponent": "home"
+            }
+          }
+        ],
+        "Name": "settings",
         "OverrideDefaultBufferSize": false,
         "CanvasBufferSize": 0
       }
@@ -105,7 +247,7 @@
               "Blue": 196
             },
             "Alpha": 255,
-            "AutoSize": true,
+            "AutoSize": false,
             "LineSpacing": 0,
             "Wildcard1": {
               "TextId": "SingleUseId13",
@@ -113,7 +255,7 @@
               "BufferSize": 10
             },
             "Name": "kettleName",
-            "X": 164,
+            "X": 182,
             "Y": 0,
             "Width": 117,
             "Height": 49,
@@ -324,57 +466,9 @@
             "Clickable": false,
             "Fadeable": false,
             "Moveable": false
-          },
-          {
-            "Type": "Button",
-            "Pressed": "Left_arrow_pressed.png",
-            "Released": "LeftArrow.png",
-            "Alpha": 255,
-            "Name": "button1",
-            "X": 118,
-            "Y": 8,
-            "Width": 19,
-            "Height": 32,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
-            "Type": "Button",
-            "Pressed": "Right_arrow_pressed.png",
-            "Released": "Right_arrow.png",
-            "Alpha": 255,
-            "Name": "button2",
-            "X": 304,
-            "Y": 8,
-            "Width": 19,
-            "Height": 32,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
           }
         ],
         "Interactions": [
-          {
-            "InteractionName": "InteractionHeater",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerClicked",
-              "TriggerComponent": "heaterToggle"
-            },
-            "Action": {
-              "Type": "ActionCustom2",
-              "ActionCustomTypeName": "Call kettle actionHeaterChange",
-              "ParameterValue": "heaterToggle.getState()",
-              "ActionComponent": "kettle"
-            }
-          },
           {
             "InteractionName": "InteractionPump",
             "HasCompletedTrigger": false,
@@ -393,7 +487,7 @@
             "InteractionName": "InteractionSetTemperature",
             "HasCompletedTrigger": false,
             "Trigger": {
-              "Type": "TriggerSliderValueChanged",
+              "Type": "TriggerSliderValueConfirmed",
               "TriggerComponent": "sliderTemperature"
             },
             "Action": {
@@ -402,15 +496,35 @@
               "ParameterValue": "value",
               "ActionComponent": "kettle"
             }
+          },
+          {
+            "InteractionName": "InteractionSetTempUpdate",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerSliderValueChanged",
+              "TriggerComponent": "sliderTemperature"
+            },
+            "Action": {
+              "Type": "ActionExecuteCode",
+              "Code": "Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, \"%d\", value);\r\ntextSetTemp.invalidate();"
+            }
+          },
+          {
+            "InteractionName": "InteractionHeater",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "heaterToggle"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call kettle actionHeaterChange",
+              "ParameterValue": "heaterToggle.getState()",
+              "ActionComponent": "kettle"
+            }
           }
         ],
         "CustomActions": [
-          {
-            "Name": "actionHeaterChange",
-            "Description": "Heater Changed",
-            "HasValue": true,
-            "ValueType": "bool"
-          },
           {
             "Name": "actionPumpChange",
             "Description": "Pump Changed",
@@ -421,6 +535,12 @@
             "Name": "actionSetTempChange",
             "HasValue": true,
             "ValueType": "uint8_t"
+          },
+          {
+            "Name": "actionHeaterChange",
+            "Description": "Heater changed",
+            "HasValue": true,
+            "ValueType": "bool"
           }
         ],
         "Name": "kettle",
@@ -469,6 +589,10 @@
       },
       {
         "TextEntryId": "SingleUseId15",
+        "IsResource": false
+      },
+      {
+        "TextEntryId": "SingleUseId16",
         "IsResource": false
       }
     ],

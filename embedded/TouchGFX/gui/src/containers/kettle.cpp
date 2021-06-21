@@ -2,13 +2,12 @@
 
 kettle::kettle()
 {
-
+    // setNumber(getNumber());
 }
 
 void kettle::initialize()
 {
     kettleBase::initialize();
-    // kettleBase::setHeaterChangedCallback(this);
 }
 
 void kettle::actionHeaterChange(bool value)
@@ -29,7 +28,27 @@ void kettle::actionPumpChange(bool value)
 
 void kettle::actionSetTempChange(uint8_t value)
 {
-    touchgfx_printf("!Set Temp = %d \n", value);
+    touchgfx_printf("Set Temp = %d \n", value);
     Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, "%d", value);
     textSetTemp.invalidate();
+}
+
+void kettle::getData(kettle_data_t * data)
+{
+    if(NULL== data)
+        return; 
+
+    data->setTemp = sliderTemperature.getValue();
+    data->heaterEnabled = heaterToggle.getState();
+    data->pumpEnabled = pumpToggle.getState();
+}
+
+void kettle::setData(kettle_data_t * data)
+{
+    if(NULL== data)
+        return; 
+    setNumber(data->id);
+    sliderTemperature.setValue(data->setTemp);
+    heaterToggle.forceState(data->heaterEnabled);
+    pumpToggle.forceState(data->pumpEnabled);
 }

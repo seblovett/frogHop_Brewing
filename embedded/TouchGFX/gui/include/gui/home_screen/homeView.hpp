@@ -3,6 +3,7 @@
 
 #include <gui_generated/home_screen/homeViewBase.hpp>
 #include <gui/home_screen/homePresenter.hpp>
+#include <gui/containers/kettle.hpp>
 
 class homeView : public homeViewBase
 {
@@ -11,11 +12,10 @@ public:
     virtual ~homeView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
-    virtual void scrollWheelKettlesUpdateItem(kettle& item, int16_t itemIndex)
-    {
-        touchgfx_printf("Scroll wheel update\n");
-        item.setNumber(itemIndex);
-    }
+    virtual void functionButtonLeft();
+    virtual void functionKettleRight();
+    void recallKettleData();
+    void saveKettleData();
 protected:
 };
 

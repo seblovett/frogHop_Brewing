@@ -36,3 +36,5 @@
 
 
 embedded/EWARM/*
+embedded/STM32CubeIDE/Debug
+embedded/TouchGFX/build

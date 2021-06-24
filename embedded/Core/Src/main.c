@@ -24,7 +24,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
 #include <stm32746g_discovery_qspi.h>
+#include "message_buffer.h"
+#include "froghop_msg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -69,6 +72,8 @@ LTDC_HandleTypeDef hltdc;
 
 QSPI_HandleTypeDef hqspi;
 
+UART_HandleTypeDef huart1;
+
 SDRAM_HandleTypeDef hsdram1;
 
 /* Definitions for TouchGFXTask */
@@ -92,14 +97,88 @@ static void MX_FMC_Init(void);
 static void MX_I2C3_Init(void);
 static void MX_LTDC_Init(void);
 static void MX_QUADSPI_Init(void);
+static void MX_USART1_UART_Init(void);
 void TouchGFX_Task(void *argument);
 
 /* USER CODE BEGIN PFP */
+void Control_Task(void *argument);
 
+osThreadId_t ControlTaskHandle;
+const osThreadAttr_t ControlTask_attributes = {
+  .name = "ControlTask",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 1024
+};
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int _write(int file, char *data, int len)
+{
+	HAL_UART_Transmit(&huart1, (uint8_t *)data, len, 100);
+	return len;
+}
+
+
+#define STORAGE_SIZE_BYTES 100
+static uint8_t ucStorageBuffer[ STORAGE_SIZE_BYTES ];
+StaticMessageBuffer_t xMessageBufferStruct;
+MessageBufferHandle_t xMessageBuffer;
+
+void Control_Task(void *argument)
+{
+	printf("Control Task start\r\n");
+	while(1)
+	{
+		printf("C\r\n");
+    fh_msg_t msg;
+    size_t xReceivedBytes;
+    const TickType_t xBlockTime = pdMS_TO_TICKS( 20 );
+  
+    xReceivedBytes = xMessageBufferReceive( xMessageBuffer,
+                                            ( void * ) &msg,
+                                            sizeof( msg ),
+                                            xBlockTime );
+ 
+    if( xReceivedBytes > 0 )
+    {
+      printf("Kettle: %d", msg.kettle_id);
+        switch(msg.id)
+        {
+          case NO_OP:
+            printf("No op!\r\n");
+            break;
+          case HEATER:
+            printf("Heater: ");
+            if(msg.value == 0)
+            {
+              printf(" off\r\n");
+            }
+            else
+            {
+              printf(" on\r\n");
+            }
+            break;
+          case PUMP:
+            printf("Pump: ");
+            if(msg.value == 0)
+            {
+              printf(" off\r\n");
+            }
+            else
+            {
+              printf(" on\r\n");
+            }
+            break;
+          case TEMPERATURE:
+            printf("Temperature = %d\r\n", msg.value);
+            break;
+        }
+    }
+		vTaskDelay(1000);
+	}
+}
+
 
 /* USER CODE END 0 */
 
@@ -146,6 +225,7 @@ int main(void)
   MX_I2C3_Init();
   MX_LTDC_Init();
   MX_QUADSPI_Init();
+  MX_USART1_UART_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
 
@@ -176,10 +256,15 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  ControlTaskHandle = osThreadNew(Control_Task, NULL, &ControlTask_attributes);
+  xMessageBuffer = xMessageBufferCreateStatic( sizeof( ucStorageBuffer ),
+                                               ucStorageBuffer,
+                                               &xMessageBufferStruct );
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
+  printf("Frog Hop\r\n");
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
@@ -245,13 +330,15 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC|RCC_PERIPHCLK_I2C3;
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC|RCC_PERIPHCLK_USART1
+                              |RCC_PERIPHCLK_I2C3;
   PeriphClkInitStruct.PLLSAI.PLLSAIN = 384;
   PeriphClkInitStruct.PLLSAI.PLLSAIR = 5;
   PeriphClkInitStruct.PLLSAI.PLLSAIQ = 2;
   PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
   PeriphClkInitStruct.PLLSAIDivQ = 1;
   PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_8;
+  PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInitStruct.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
@@ -470,6 +557,41 @@ static void MX_QUADSPI_Init(void)
   BSP_QSPI_MemoryMappedMode();
   HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
   /* USER CODE END QUADSPI_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
 
 }
 

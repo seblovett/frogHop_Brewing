@@ -3,7 +3,7 @@
 
 #include <touchgfx/hal/types.hpp>
 #include <gui/model/kettle_data.h>
-
+#include "cmsis_os.h"
 
 class ModelListener;
 
@@ -30,7 +30,7 @@ public:
 
     void setKettle(kettle_data_t *k)
     {
-        if(NULL == k)
+        if(0 == k)
             return;
         
         if(k->id > NUM_KETTLES)
@@ -46,7 +46,7 @@ public:
 
     void getKettle(kettle_data_t *k)
     {
-        if(NULL == k)
+        if(0 == k)
             return;
         if(k->id > NUM_KETTLES)
             return; 

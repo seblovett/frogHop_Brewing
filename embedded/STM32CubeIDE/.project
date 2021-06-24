@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>STM32F746G_DISCO</name>
-	<comment/>
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -174,6 +174,16 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_uart.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_uart_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_ll_fmc.c</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_fmc.c</locationURI>
@@ -254,99 +264,14 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Core/Src/stm32f7xx_it.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/TouchGFX/App/app_touchgfx.c</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/App/app_touchgfx.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/CortexMMCUInstrumentation.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/CortexMMCUInstrumentation.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/STM32TouchController.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/STM32TouchController.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/TouchGFXGPIO.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/TouchGFXGPIO.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/TouchGFXHAL.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/TouchGFXHAL.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/generated/OSWrappers.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/OSWrappers.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/generated/STM32DMA.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/STM32DMA.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/generated/TouchGFXConfiguration.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/TouchGFXConfiguration.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/FrontendApplication.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/common/FrontendApplication.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/kettle.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/containers/kettle.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/homePresenter.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/home_screen/homePresenter.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/homeView.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/home_screen/homeView.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/Model.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/model/Model.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/ScreenSplashPresenter.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/screensplash_screen/ScreenSplashPresenter.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/ScreenSplashView.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/screensplash_screen/ScreenSplashView.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/settingsPresenter.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/settings_screen/settingsPresenter.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/gui/settingsView.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/settings_screen/settingsView.cpp</locationURI>
-		</link>
-		<link>
 			<name>Application/User/generated/ApplicationFontProvider.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/ApplicationFontProvider.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/BitmapDatabase.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/BitmapDatabase.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/CachedFont.cpp</name>
@@ -374,6 +299,11 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/Font_verdana_40_4bpp_0.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/generated/FrontendApplicationBase.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/generated/GeneratedFont.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/GeneratedFont.cpp</locationURI>
@@ -394,6 +324,16 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/Kerning_verdana_40_4bpp.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/generated/LanguageGb.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/texts/src/LanguageGb.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/ScreenSplashViewBase.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/screensplash_screen/ScreenSplashViewBase.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/generated/Table_verdana_10_4bpp.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/Table_verdana_10_4bpp.cpp</locationURI>
@@ -409,19 +349,19 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/Table_verdana_40_4bpp.cpp</locationURI>
 		</link>
 		<link>
+			<name>Application/User/generated/Texts.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/texts/src/Texts.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/TypedTextDatabase.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/texts/src/TypedTextDatabase.cpp</locationURI>
+		</link>
+		<link>
 			<name>Application/User/generated/UnmappedDataFont.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/fonts/src/UnmappedDataFont.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/FrontendApplicationBase.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/common/FrontendApplicationBase.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/kettleBase.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/containers/kettleBase.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/homeViewBase.cpp</name>
@@ -429,19 +369,59 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/home_screen/homeViewBase.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/ScreenSplashViewBase.cpp</name>
+			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/screensplash_screen/ScreenSplashViewBase.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/settingsViewBase.cpp</name>
+			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/settings_screen/settingsViewBase.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/BitmapDatabase.cpp</name>
+			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/BitmapDatabase.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Down_arrow.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Down_arrow.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Down_arrow_pressed.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Down_arrow_pressed.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_LeftArrow.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_LeftArrow.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Left_arrow_pressed.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Left_arrow_pressed.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Right_arrow.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Right_arrow.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Right_arrow_pressed.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Right_arrow_pressed.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Up_arrow.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Up_arrow.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/generated/image_Up_arrow_pressed.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Up_arrow_pressed.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/image_background.cpp</name>
@@ -509,16 +489,6 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_counter_box.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_Down_arrow.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Down_arrow.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Down_arrow_pressed.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Down_arrow_pressed.cpp</locationURI>
-		</link>
-		<link>
 			<name>Application/User/generated/image_froghop.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_froghop.cpp</locationURI>
@@ -574,16 +544,6 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_icon06.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_LeftArrow.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_LeftArrow.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Left_arrow_pressed.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Left_arrow_pressed.cpp</locationURI>
-		</link>
-		<link>
 			<name>Application/User/generated/image_overlay.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_overlay.cpp</locationURI>
@@ -592,26 +552,6 @@
 			<name>Application/User/generated/image_pan.cpp</name>
 			<type>1</type>
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_pan.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Right_arrow.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Right_arrow.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Right_arrow_pressed.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Right_arrow_pressed.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Up_arrow.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Up_arrow.cpp</locationURI>
-		</link>
-		<link>
-			<name>Application/User/generated/image_Up_arrow_pressed.cpp</name>
-			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_Up_arrow_pressed.cpp</locationURI>
 		</link>
 		<link>
 			<name>Application/User/generated/image_water-pump_off.cpp</name>
@@ -624,34 +564,104 @@
 			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/image_water-pump_on.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.cpp</name>
+			<name>Application/User/generated/kettleBase.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/containers/kettleBase.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.cpp</name>
+			<name>Application/User/generated/settingsViewBase.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/gui_generated/src/settings_screen/settingsViewBase.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.cpp</name>
+			<name>Application/User/gui/FrontendApplication.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/images/src/__designer/image_Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/common/FrontendApplication.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/LanguageGb.cpp</name>
+			<name>Application/User/gui/Model.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/texts/src/LanguageGb.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/model/Model.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/Texts.cpp</name>
+			<name>Application/User/gui/ScreenSplashPresenter.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/texts/src/Texts.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/screensplash_screen/ScreenSplashPresenter.cpp</locationURI>
 		</link>
 		<link>
-			<name>Application/User/generated/TypedTextDatabase.cpp</name>
+			<name>Application/User/gui/ScreenSplashView.cpp</name>
 			<type>1</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/generated/texts/src/TypedTextDatabase.cpp</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/screensplash_screen/ScreenSplashView.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/homePresenter.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/home_screen/homePresenter.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/homeView.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/home_screen/homeView.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/kettle.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/containers/kettle.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/settingsPresenter.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/settings_screen/settingsPresenter.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/gui/settingsView.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/gui/src/settings_screen/settingsView.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/App/app_touchgfx.c</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/App/app_touchgfx.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/CortexMMCUInstrumentation.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/CortexMMCUInstrumentation.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/STM32TouchController.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/STM32TouchController.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/TouchGFXGPIO.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/TouchGFXGPIO.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/TouchGFXHAL.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/TouchGFXHAL.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/generated/OSWrappers.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/OSWrappers.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/generated/STM32DMA.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/STM32DMA.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/generated/TouchGFXConfiguration.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/TouchGFXConfiguration.cpp</locationURI>
+		</link>
+		<link>
+			<name>Application/User/TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/TouchGFX/target/generated/TouchGFXGeneratedHAL.cpp</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

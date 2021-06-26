@@ -2,8 +2,13 @@
 #define MODEL_HPP
 
 #include <touchgfx/hal/types.hpp>
-#include <gui/model/kettle_data.h>
+
+#ifdef SIMULATOR
+#include "gui/model/kettle_data.h"
+#else
+#include "froghop_msg.h"
 #include "cmsis_os.h"
+#endif
 
 class ModelListener;
 

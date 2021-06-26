@@ -58,12 +58,31 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define BOILER_PUMP_Pin GPIO_PIN_4
+#define BOILER_PUMP_GPIO_Port GPIOB
+#define BUTTON_RIGHT_Pin GPIO_PIN_3
+#define BUTTON_RIGHT_GPIO_Port GPIOI
+#define BUTTON_RIGHT_EXTI_IRQn EXTI3_IRQn
 #define LCD_BL_CTRL_Pin GPIO_PIN_3
 #define LCD_BL_CTRL_GPIO_Port GPIOK
 #define LED_Pin GPIO_PIN_1
 #define LED_GPIO_Port GPIOI
 #define LCD_DISP_Pin GPIO_PIN_12
 #define LCD_DISP_GPIO_Port GPIOI
+#define BUTTON_LEFT_Pin GPIO_PIN_8
+#define BUTTON_LEFT_GPIO_Port GPIOA
+#define BUTTON_LEFT_EXTI_IRQn EXTI9_5_IRQn
+#define HLT_HEATER_Pin GPIO_PIN_7
+#define HLT_HEATER_GPIO_Port GPIOC
+#define HLT_PUMP_Pin GPIO_PIN_6
+#define HLT_PUMP_GPIO_Port GPIOC
+#define BOILER_HEATER_Pin GPIO_PIN_7
+#define BOILER_HEATER_GPIO_Port GPIOG
+#define MLT_PUMP_Pin GPIO_PIN_6
+#define MLT_PUMP_GPIO_Port GPIOG
+#define BUTTON_CENTRE_Pin GPIO_PIN_6
+#define BUTTON_CENTRE_GPIO_Port GPIOH
+#define BUTTON_CENTRE_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -53,6 +53,8 @@ void MemManage_Handler(void);
 void BusFault_Handler(void);
 void UsageFault_Handler(void);
 void DebugMon_Handler(void);
+void EXTI3_IRQHandler(void);
+void EXTI9_5_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
 void LTDC_IRQHandler(void);
 void DMA2D_IRQHandler(void);

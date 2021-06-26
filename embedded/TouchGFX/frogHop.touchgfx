@@ -531,6 +531,22 @@
             "Clickable": false,
             "Fadeable": false,
             "Moveable": false
+          },
+          {
+            "Type": "Image",
+            "RelativeFilename": "heat_lines.png",
+            "Alpha": 255,
+            "Name": "imageHeatlines",
+            "X": 313,
+            "Y": 106,
+            "Width": 50,
+            "Height": 35,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
           }
         ],
         "Interactions": [
@@ -699,6 +715,7 @@
     "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
     "PostGenerateTargetCommand": "touchgfx update_project --project-file=../STM32F746G_DISCO.ioc --platform=m7",
     "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
+    "CompileSimulatorCommandOverride": "make -f simulator/gcc/Makefile -j8 ",
     "RunSimulatorCommand": "build\\bin\\simulator.exe",
     "CompileTargetCommand": "make -f ../gcc/Makefile -j8",
     "FlashTargetCommand": "make -f ../gcc/Makefile flash -j8",

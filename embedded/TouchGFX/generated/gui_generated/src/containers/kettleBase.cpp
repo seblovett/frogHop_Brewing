@@ -77,6 +77,9 @@ kettleBase::kettleBase() :
     textAreaTimerLabel.setLinespacing(0);
     textAreaTimerLabel.setTypedText(touchgfx::TypedText(T_SINGLEUSEID15));
 
+    imageHeatlines.setXY(313, 106);
+    imageHeatlines.setBitmap(touchgfx::Bitmap(BITMAP_HEAT_LINES_ID));
+
     add(pumpToggle);
     add(image1);
     add(kettleName);
@@ -88,6 +91,7 @@ kettleBase::kettleBase() :
     add(textAreaTempLabel);
     add(timer);
     add(textAreaTimerLabel);
+    add(imageHeatlines);
 }
 
 void kettleBase::initialize()

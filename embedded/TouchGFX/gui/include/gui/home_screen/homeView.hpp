@@ -16,6 +16,8 @@ public:
     virtual void functionKettleRight();
     void recallKettleData();
     void saveKettleData();
+    virtual void handleTickEvent();
+    void printKettle(kettle_data_t *k);
 protected:
 };
 

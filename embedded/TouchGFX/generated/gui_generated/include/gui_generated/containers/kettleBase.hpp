@@ -46,6 +46,7 @@ protected:
     touchgfx::TextArea textAreaTempLabel;
     touchgfx::DigitalClock timer;
     touchgfx::TextArea textAreaTimerLabel;
+    touchgfx::Image imageHeatlines;
 
     /*
      * Wildcard Buffers

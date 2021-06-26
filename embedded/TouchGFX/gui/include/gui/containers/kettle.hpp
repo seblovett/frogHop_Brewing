@@ -2,8 +2,11 @@
 #define KETTLE_HPP
 
 #include <gui_generated/containers/kettleBase.hpp>
-#include <gui/model/kettle_data.h>
-
+#ifdef SIMULATOR
+#include "gui/model/kettle_data.h"
+#else
+#include "froghop_msg.h"
+#endif
 
 class kettle : public kettleBase
 {
@@ -12,12 +15,7 @@ public:
     virtual ~kettle() {}
 
     virtual void initialize();
-    enum {
-        BOILER = 0,
-        MLT = 1,
-        HLT = 2,
-        NUMB_KETTLES = 3
-    };
+
 
     int getNumber()
     {
@@ -49,13 +47,15 @@ public:
     void actionSetTempChange(uint8_t value);
     void getData(kettle_data_t *data);
     void setData(kettle_data_t * data);
-
+    void setCurrentTemp(uint8_t temp);
+    void setHeatlines(bool value);
     // void setHeaterToggle(bool value);
     // bool getHeaterToggle();
     // void setPumpToggle(bool value);
 
 protected:
     int selectedKettleID;// = HLT;
+    int currentTemp;// = HLT;
 };
 
 #endif // KETTLE_HPP

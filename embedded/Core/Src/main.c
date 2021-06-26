@@ -28,6 +28,8 @@
 #include <stm32746g_discovery_qspi.h>
 #include "message_buffer.h"
 #include "froghop_msg.h"
+#include "froghop.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -125,59 +127,9 @@ static uint8_t ucStorageBuffer[ STORAGE_SIZE_BYTES ];
 StaticMessageBuffer_t xMessageBufferStruct;
 MessageBufferHandle_t xMessageBuffer;
 
-void Control_Task(void *argument)
-{
-	printf("Control Task start\r\n");
-	while(1)
-	{
-		printf("C\r\n");
-    fh_msg_t msg;
-    size_t xReceivedBytes;
-    const TickType_t xBlockTime = pdMS_TO_TICKS( 20 );
-  
-    xReceivedBytes = xMessageBufferReceive( xMessageBuffer,
-                                            ( void * ) &msg,
-                                            sizeof( msg ),
-                                            xBlockTime );
- 
-    if( xReceivedBytes > 0 )
-    {
-      printf("Kettle: %d", msg.kettle_id);
-        switch(msg.id)
-        {
-          case NO_OP:
-            printf("No op!\r\n");
-            break;
-          case HEATER:
-            printf("Heater: ");
-            if(msg.value == 0)
-            {
-              printf(" off\r\n");
-            }
-            else
-            {
-              printf(" on\r\n");
-            }
-            break;
-          case PUMP:
-            printf("Pump: ");
-            if(msg.value == 0)
-            {
-              printf(" off\r\n");
-            }
-            else
-            {
-              printf(" on\r\n");
-            }
-            break;
-          case TEMPERATURE:
-            printf("Temperature = %d\r\n", msg.value);
-            break;
-        }
-    }
-		vTaskDelay(1000);
-	}
-}
+static uint8_t C2G_Buffer[ STORAGE_SIZE_BYTES ];
+StaticMessageBuffer_t C2G_MsgStruct;
+MessageBufferHandle_t C2G_BufferHandle;
 
 
 /* USER CODE END 0 */
@@ -260,6 +212,9 @@ int main(void)
   xMessageBuffer = xMessageBufferCreateStatic( sizeof( ucStorageBuffer ),
                                                ucStorageBuffer,
                                                &xMessageBufferStruct );
+  C2G_BufferHandle = xMessageBufferCreateStatic( sizeof( C2G_Buffer),
+                                               C2G_Buffer,
+                                               &C2G_MsgStruct );
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -706,16 +661,19 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOJ_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOK_CLK_ENABLE();
-  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOI_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BOILER_PUMP_GPIO_Port, BOILER_PUMP_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_BL_CTRL_GPIO_Port, LCD_BL_CTRL_Pin, GPIO_PIN_SET);
@@ -725,6 +683,25 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_DISP_GPIO_Port, LCD_DISP_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, HLT_HEATER_Pin|HLT_PUMP_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOG, BOILER_HEATER_Pin|MLT_PUMP_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : BOILER_PUMP_Pin */
+  GPIO_InitStruct.Pin = BOILER_PUMP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BOILER_PUMP_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_RIGHT_Pin */
+  GPIO_InitStruct.Pin = BUTTON_RIGHT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BUTTON_RIGHT_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LCD_BL_CTRL_Pin */
   GPIO_InitStruct.Pin = LCD_BL_CTRL_Pin;
@@ -739,6 +716,32 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_LEFT_Pin */
+  GPIO_InitStruct.Pin = BUTTON_LEFT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BUTTON_LEFT_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : HLT_HEATER_Pin HLT_PUMP_Pin */
+  GPIO_InitStruct.Pin = HLT_HEATER_Pin|HLT_PUMP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : BOILER_HEATER_Pin MLT_PUMP_Pin */
+  GPIO_InitStruct.Pin = BOILER_HEATER_Pin|MLT_PUMP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_CENTRE_Pin */
+  GPIO_InitStruct.Pin = BUTTON_CENTRE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BUTTON_CENTRE_GPIO_Port, &GPIO_InitStruct);
 
 }
 

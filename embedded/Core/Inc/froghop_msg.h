@@ -15,13 +15,18 @@ extern MessageBufferHandle_t C2G_BufferHandle;
 #define MLT 1
 #define HLT 2
 #define NUM_KETTLES 3
+
+#define BUTTON_LEFT    1
+#define BUTTON_CENTRE  2
+#define BUTTON_RIGHT   3
 typedef enum {
     NO_OP = 0,
     HEATER_ENABLE = 1,
     HEATER_ON = 2,
     PUMP_ENABLE = 3, 
     SET_TEMPERATURE = 4,
-    CURRENT_TEMPERATURE = 5
+    CURRENT_TEMPERATURE = 5,
+    BUTTON = 6
 } fh_msgid_t;
 
 typedef struct {

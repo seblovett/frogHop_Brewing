@@ -54,7 +54,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+extern SPI_HandleTypeDef hspi2;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -65,13 +65,12 @@ void Error_Handler(void);
 #define BUTTON_RIGHT_EXTI_IRQn EXTI3_IRQn
 #define LCD_BL_CTRL_Pin GPIO_PIN_3
 #define LCD_BL_CTRL_GPIO_Port GPIOK
-#define LED_Pin GPIO_PIN_1
-#define LED_GPIO_Port GPIOI
 #define LCD_DISP_Pin GPIO_PIN_12
 #define LCD_DISP_GPIO_Port GPIOI
-#define BUTTON_LEFT_Pin GPIO_PIN_8
-#define BUTTON_LEFT_GPIO_Port GPIOA
-#define BUTTON_LEFT_EXTI_IRQn EXTI9_5_IRQn
+#define BUTTON_LEFT_Pin GPIO_PIN_0
+#define BUTTON_LEFT_GPIO_Port GPIOI
+#define CS_Pin GPIO_PIN_8
+#define CS_GPIO_Port GPIOA
 #define HLT_HEATER_Pin GPIO_PIN_7
 #define HLT_HEATER_GPIO_Port GPIOC
 #define HLT_PUMP_Pin GPIO_PIN_6

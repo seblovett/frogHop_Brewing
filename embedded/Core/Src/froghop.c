@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdio.h>
 #include "froghop_msg.h"
+#include "max31865.h"
 
 
 kettle_data_t kettles[NUM_KETTLES];
@@ -10,12 +11,21 @@ void read_temps()
   fh_msg_t msg; 
   msg.id = CURRENT_TEMPERATURE;
   msg.kettle_id = 0;
-  msg.value = kettles[msg.kettle_id].currentTemp++;
+  // msg.value = kettles[msg.kettle_id].currentTemp++;
   //To Do - read the sensors
-  
+  msg.value = max31865_get_temperature();
+  printf("Temp = %d C\r\n", msg.value);
   xMessageBufferSend( C2G_BufferHandle,
                       ( void * ) &msg,
                       sizeof(fh_msg_t), 0 );
+}
+
+void temperature_control()
+{
+	for(uint8_t i = 0; i < NUM_KETTLES; i++)
+	{
+
+	}
 }
 
 
@@ -52,6 +62,9 @@ void handle_message(fh_msg_t *msg)
       printf("Temperature = %d\r\n", msg->value);
       kettles[msg->kettle_id].setTemp = msg->value;
       break;
+    case BUTTON:
+      printf("Button =%d\r\n", msg->value);
+      break;
   }
 
 }
@@ -59,6 +72,8 @@ void handle_message(fh_msg_t *msg)
 void Control_Task(void *argument)
 {
 	printf("Control Task start\r\n");
+  max31865_init();
+
 	while(1)
 	{
 		printf("C\r\n");
@@ -75,6 +90,29 @@ void Control_Task(void *argument)
     {    
       handle_message(&msg);
     }
+    update_gpios();
     read_temps();
 	}
+}
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  fh_msg_t msg;
+  msg.id = BUTTON;
+  msg.kettle_id = 0;
+  BaseType_t pxHigherPriorityTaskWoken = pdFALSE;
+  switch(GPIO_Pin)
+  {
+    case GPIO_PIN_3:
+      msg.value = BUTTON_RIGHT;
+      break;
+    case GPIO_PIN_6: 
+      msg.value = BUTTON_CENTRE;
+      break;
+    case GPIO_PIN_8: 
+      msg.value = BUTTON_LEFT;
+      break;
+  }
+  xMessageBufferSendFromISR(xMessageBuffer, (void *) &msg, sizeof(msg), &pxHigherPriorityTaskWoken);
 }

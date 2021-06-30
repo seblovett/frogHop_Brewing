@@ -152,7 +152,8 @@ static int ticks = 0;
             break;
 
         case HEATER_ON:
-            
+            if(msg.kettle_id == presenter->getSelectedKettle())
+                kettle1.setHeatlines(msg.value ? true : false);
             break;    
         default:
             break;

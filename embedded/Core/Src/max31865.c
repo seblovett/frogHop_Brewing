@@ -17,7 +17,7 @@ void spi_write(uint8_t reg, uint8_t val)
 {
   uint8_t tx[2] = {0};
   uint8_t rx[2] = {0};
-  tx[0] = reg; 
+  tx[0] = reg | WRITE_FLAG; 
   tx[1] = val;
   HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
   HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
@@ -41,7 +41,7 @@ uint16_t spi_read16(uint8_t reg)
   uint8_t rx[3] = {0};
   tx[0] = reg; 
   HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
+  HAL_SPI_TransmitReceive(&hspi2, tx, rx, 3, 100);
   HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
   uint16_t val = (rx[1] << 8) | rx[2];
   return val;
@@ -51,18 +51,18 @@ void max31865_init()
 {
   uint8_t val;
   val = spi_read8(MAX31865_REG_CONFIG);
-  printf("Config = 0x%02x\r\n", val);
-  val = MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_1SHOT |
+  // printf("Config = 0x%02x\r\n", val);
+  val = MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_AUTO |
             MAX31865_CONFIG_3WIRE | MAX31865_CONFIG_50HZ;
-  printf("write Config = 0x%02x\r\n", val);
+  // printf("write Config = 0x%02x\r\n", val);
   spi_write(MAX31865_REG_CONFIG, val);
   
   val = spi_read8(MAX31865_REG_CONFIG);
-  printf("Config = 0x%02x\r\n", val);
+  // printf("Config = 0x%02x\r\n", val);
 
 }
 
-uint16_t get_resistance()
+double get_resistance()
 {
     uint16_t rtdval = spi_read16(MAX31865_REG_RTD_MSB);
     
@@ -71,10 +71,12 @@ uint16_t get_resistance()
         uint8_t fault = spi_read8(MAX31865_REG_FAULT_STATUS);
         printf("Error 0x%02x detected\r\n", fault);
     }
+    printf("raw val = 0x%04x\r\n", rtdval);
     rtdval >>= 1;  // remove the Fault bit
-    rtdval /= 32768;
-    rtdval *= RREF;
-    return rtdval;
+    double R = (double)rtdval * (double)RREF / 32768.0;
+    // rtdval /= 32768;
+    // rtdval *= RREF;
+    return R;
 }
 /**
  * Apply the Callendar-Van Dusen equation to convert the RTD resistance

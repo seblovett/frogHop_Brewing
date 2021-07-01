@@ -15,7 +15,7 @@ void read_temps()
   //To Do - read the sensors
   msg.value = max31865_get_temperature();
   kettles[msg.kettle_id].currentTemp = msg.value;
-  printf("Temp = %d C\r\n", msg.value);
+  // printf("Temp = %d C\r\n", msg.value);
   xMessageBufferSend( C2G_BufferHandle,
                       ( void * ) &msg,
                       sizeof(fh_msg_t), 0 );
@@ -139,5 +139,5 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       msg.value = BUTTON_LEFT;
       break;
   }
-  xMessageBufferSendFromISR(xMessageBuffer, (void *) &msg, sizeof(msg), &pxHigherPriorityTaskWoken);
+  xMessageBufferSendFromISR(C2G_BufferHandle, (void *) &msg, sizeof(msg), &pxHigherPriorityTaskWoken);
 }

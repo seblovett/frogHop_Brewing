@@ -69,6 +69,7 @@ extern SPI_HandleTypeDef hspi2;
 #define LCD_DISP_GPIO_Port GPIOI
 #define BUTTON_LEFT_Pin GPIO_PIN_0
 #define BUTTON_LEFT_GPIO_Port GPIOI
+#define BUTTON_LEFT_EXTI_IRQn EXTI0_IRQn
 #define CS_Pin GPIO_PIN_8
 #define CS_GPIO_Port GPIOA
 #define HLT_HEATER_Pin GPIO_PIN_7

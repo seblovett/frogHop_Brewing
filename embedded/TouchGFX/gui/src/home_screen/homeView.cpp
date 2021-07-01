@@ -62,36 +62,41 @@ void homeView::functionButtonLeft()
 {
     saveKettleData(); //save current kettle
     uint8_t id = presenter->getSelectedKettle(); 
-    id = id - 1;
-    if (id == 0)
+    if(id > 0)
     {
-        buttonLeft.setVisible(false);
+        id = id - 1;
+        if (id == 0)
+        {
+            buttonLeft.setVisible(false);
+        }
+        buttonRight.setVisible(true);
+        buttonLeft.invalidate();
+        buttonRight.invalidate();
+        
+        presenter->setSelectedKettle(id);
+        recallKettleData();
     }
-    buttonRight.setVisible(true);
-    buttonLeft.invalidate();
-    buttonRight.invalidate();
-    
-    presenter->setSelectedKettle(id);
-    recallKettleData();
 }
 
 void homeView::functionKettleRight()
 {
     saveKettleData(); //save current kettle
     uint8_t id = presenter->getSelectedKettle(); 
-    id = id + 1;
-    if (id == NUM_KETTLES-1)
+    if(id == NUM_KETTLES)
     {
-        buttonRight.setVisible(false);
+        id = id + 1;
+        if (id == NUM_KETTLES-1)
+        {
+            buttonRight.setVisible(false);
+        }
+        buttonLeft.setVisible(true);
+        buttonLeft.invalidate();
+        buttonRight.invalidate();
+        
+        presenter->setSelectedKettle(id);
+        recallKettleData();
     }
-    buttonLeft.setVisible(true);
-    buttonLeft.invalidate();
-    buttonRight.invalidate();
-    
-    presenter->setSelectedKettle(id);
-    recallKettleData();
 }
-
 
 void homeView::handleTickEvent()
 {
@@ -155,6 +160,22 @@ static int ticks = 0;
             if(msg.kettle_id == presenter->getSelectedKettle())
                 kettle1.setHeatlines(msg.value ? true : false);
             break;    
+        case BUTTON:
+            switch(msg.value)
+            {
+                case BUTTON_LEFT:
+                    functionButtonLeft();
+                    break;
+                case BUTTON_CENTRE:
+                    
+                    break;
+                case BUTTON_RIGHT:
+                    functionKettleRight();
+                    break;
+                default:
+                    break;
+            }
+            break;
         default:
             break;
         }

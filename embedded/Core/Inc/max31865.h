@@ -70,8 +70,8 @@
 
 #define RTD_ADC_RESOLUTION  ( 1u << 15 ) /* 15 bits */
 
-void max31865_init();
+void max31865_init(GPIO_TypeDef * Port, uint16_t Pin);
 
-uint8_t max31865_get_temperature();
+uint8_t max31865_get_temperature(GPIO_TypeDef * Port, uint16_t Pin);
 
 #endif /* _MAX31865_H */

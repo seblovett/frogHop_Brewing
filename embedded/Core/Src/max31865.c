@@ -13,65 +13,65 @@
 #define RREF 430  // reference resistor in Ohms
 #define RTD_NOM 100
 
-void spi_write(uint8_t reg, uint8_t val)
+void spi_write(uint8_t reg, uint8_t val, GPIO_TypeDef * Port, uint16_t Pin)
 {
   uint8_t tx[2] = {0};
   uint8_t rx[2] = {0};
   tx[0] = reg | WRITE_FLAG; 
   tx[1] = val;
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
   HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
 }
 
-uint8_t spi_read8(uint8_t reg)
+uint8_t spi_read8(uint8_t reg, GPIO_TypeDef * Port, uint16_t Pin)
 {
   uint8_t tx[2] = {0};
   uint8_t rx[2] = {0};
   tx[0] = reg; 
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
   HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
   return rx[1];
 }
 
-uint16_t spi_read16(uint8_t reg)
+uint16_t spi_read16(uint8_t reg, GPIO_TypeDef * Port, uint16_t Pin)
 {
   uint8_t tx[3] = {0};
   uint8_t rx[3] = {0};
   tx[0] = reg; 
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
   HAL_SPI_TransmitReceive(&hspi2, tx, rx, 3, 100);
-  HAL_GPIO_WritePin(CS_GPIO_Port, CS_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
   uint16_t val = (rx[1] << 8) | rx[2];
   return val;
 }
 
-void max31865_init()
+void max31865_init(GPIO_TypeDef * Port, uint16_t Pin)
 {
   uint8_t val;
-  val = spi_read8(MAX31865_REG_CONFIG);
+  val = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
   // printf("Config = 0x%02x\r\n", val);
   val = MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_AUTO |
             MAX31865_CONFIG_3WIRE | MAX31865_CONFIG_50HZ;
   // printf("write Config = 0x%02x\r\n", val);
-  spi_write(MAX31865_REG_CONFIG, val);
+  spi_write(MAX31865_REG_CONFIG, val, Port, Pin);
   
-  val = spi_read8(MAX31865_REG_CONFIG);
+  val = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
   // printf("Config = 0x%02x\r\n", val);
 
 }
 
-double get_resistance()
+double get_resistance(GPIO_TypeDef * Port, uint16_t Pin)
 {
-    uint16_t rtdval = spi_read16(MAX31865_REG_RTD_MSB);
+    uint16_t rtdval = spi_read16(MAX31865_REG_RTD_MSB, Port, Pin);
     
     if ((rtdval & 0x01)) // lowest bit is a fault flag
     {
-        uint8_t fault = spi_read8(MAX31865_REG_FAULT_STATUS);
+        uint8_t fault = spi_read8(MAX31865_REG_FAULT_STATUS, Port, Pin);
         printf("Error 0x%02x detected\r\n", fault);
     }
-    printf("raw val = 0x%04x\r\n", rtdval);
+//    printf("raw val = 0x%04x\r\n", rtdval);
     rtdval >>= 1;  // remove the Fault bit
     double R = (double)rtdval * (double)RREF / 32768.0;
     // rtdval /= 32768;
@@ -98,14 +98,14 @@ double get_resistance()
  * @param [in] resistance The measured RTD resistance.
  * @return Temperature in degrees Celcius.
  */
-uint8_t max31865_get_temperature() 
+uint8_t max31865_get_temperature(GPIO_TypeDef * Port, uint16_t Pin)
 {
   static const double a2   = 2.0 * RTD_B;
   static const double b_sq = RTD_A * RTD_A;
 
   const double rtd_resistance = RTD_RESISTANCE_PT100;
 
-  double c = 1.0 - get_resistance() / rtd_resistance;
+  double c = 1.0 - get_resistance(Port, Pin) / rtd_resistance;
   double D = b_sq - 2.0 * a2 * c;
   double temperature_deg_C = ( -RTD_A + sqrt( D ) ) / a2;
 

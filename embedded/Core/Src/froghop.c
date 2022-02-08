@@ -13,7 +13,7 @@ void read_temps()
   msg.kettle_id = 0;
   // msg.value = kettles[msg.kettle_id].currentTemp++;
   //To Do - read the sensors
-  msg.value = max31865_get_temperature();
+  msg.value = max31865_get_temperature(HLT_CS_GPIO_Port, HLT_CS_Pin);
   kettles[msg.kettle_id].currentTemp = msg.value;
   // printf("Temp = %d C\r\n", msg.value);
   xMessageBufferSend( C2G_BufferHandle,
@@ -96,7 +96,7 @@ void handle_message(fh_msg_t *msg)
 void Control_Task(void *argument)
 {
 	printf("Control Task start\r\n");
-  max31865_init();
+  max31865_init(HLT_CS_GPIO_Port, HLT_CS_Pin);
 
 	while(1)
 	{
@@ -129,13 +129,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   BaseType_t pxHigherPriorityTaskWoken = pdFALSE;
   switch(GPIO_Pin)
   {
-    case BUTTON_RIGHT_Pin:
+    case BUTTON_RED_Pin:
       msg.value = BUTTON_RIGHT;
       break;
-    case BUTTON_CENTRE_Pin: 
+    case BUTTON_BLACK_Pin:
       msg.value = BUTTON_CENTRE;
       break;
-    case BUTTON_LEFT_Pin: 
+    case BUTTON_GREEN_Pin:
       msg.value = BUTTON_LEFT;
       break;
   }

@@ -82,7 +82,7 @@ void homeView::functionKettleRight()
 {
     saveKettleData(); //save current kettle
     uint8_t id = presenter->getSelectedKettle(); 
-    if(id == NUM_KETTLES)
+    if(id != NUM_KETTLES)
     {
         id = id + 1;
         if (id == NUM_KETTLES-1)

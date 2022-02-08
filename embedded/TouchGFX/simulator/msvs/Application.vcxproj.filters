@@ -200,16 +200,16 @@
       <UniqueIdentifier>2E07F300-32FD-E807-7B8D-4C98D931D5BD</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\gui\screensplash_screen">
-      <UniqueIdentifier>9F6A6ACA-A122-F45C-2F3F-DB5755D2728C</UniqueIdentifier>
+      <UniqueIdentifier>9A78CC66-BB7E-1535-E0EE-4FA2CA73BF94</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\gui\screensplash_screen">
-      <UniqueIdentifier>1BF51543-AC63-6AE2-6CDB-1BFE7DD24646</UniqueIdentifier>
+      <UniqueIdentifier>B6BBF488-6E5C-5767-004D-7003BE52E88C</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\generated\gui_generated\screensplash_screen">
-      <UniqueIdentifier>2705ABBE-7571-B446-F99F-217693C39385</UniqueIdentifier>
+      <UniqueIdentifier>097E7F4E-44ED-DCB9-9D41-7B970E400105</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\generated\gui_generated\screensplash_screen">
-      <UniqueIdentifier>E28F521F-554C-7FB8-5145-F4D9A36D5C66</UniqueIdentifier>
+      <UniqueIdentifier>F6B06826-87D4-8A5C-43D7-4A5135BDB030</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

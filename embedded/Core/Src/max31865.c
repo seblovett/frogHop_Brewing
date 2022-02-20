@@ -13,70 +13,71 @@
 #define RREF 430  // reference resistor in Ohms
 #define RTD_NOM 100
 
-void spi_write(uint8_t reg, uint8_t val, GPIO_TypeDef * Port, uint16_t Pin)
-{
-  uint8_t tx[2] = {0};
-  uint8_t rx[2] = {0};
-  tx[0] = reg | WRITE_FLAG; 
-  tx[1] = val;
-  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
-  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
+void spi_write(uint8_t reg, uint8_t val, GPIO_TypeDef *Port, uint16_t Pin) {
+	uint8_t tx[2] = { 0 };
+	uint8_t rx[2] = { 0 };
+	tx[0] = reg | WRITE_FLAG;
+	tx[1] = val;
+	HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
+	HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
 }
 
-uint8_t spi_read8(uint8_t reg, GPIO_TypeDef * Port, uint16_t Pin)
-{
-  uint8_t tx[2] = {0};
-  uint8_t rx[2] = {0};
-  tx[0] = reg; 
-  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
-  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
-  return rx[1];
+uint8_t spi_read8(uint8_t reg, GPIO_TypeDef *Port, uint16_t Pin) {
+	uint8_t tx[2] = { 0 };
+	uint8_t rx[2] = { 0 };
+	tx[0] = reg;
+	HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(&hspi2, tx, rx, 2, 100);
+	HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
+	return rx[1];
 }
 
-uint16_t spi_read16(uint8_t reg, GPIO_TypeDef * Port, uint16_t Pin)
-{
-  uint8_t tx[3] = {0};
-  uint8_t rx[3] = {0};
-  tx[0] = reg; 
-  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi2, tx, rx, 3, 100);
-  HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
-  uint16_t val = (rx[1] << 8) | rx[2];
-  return val;
+uint16_t spi_read16(uint8_t reg, GPIO_TypeDef *Port, uint16_t Pin) {
+	uint8_t tx[3] = { 0 };
+	uint8_t rx[3] = { 0 };
+	tx[0] = reg;
+	HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(&hspi2, tx, rx, 3, 100);
+	HAL_GPIO_WritePin(Port, Pin, GPIO_PIN_SET);
+	uint16_t val = (rx[1] << 8) | rx[2];
+	return val;
 }
 
-void max31865_init(GPIO_TypeDef * Port, uint16_t Pin)
-{
-  uint8_t val;
-  val = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
-  // printf("Config = 0x%02x\r\n", val);
-  val = MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_AUTO |
-            MAX31865_CONFIG_3WIRE | MAX31865_CONFIG_50HZ;
-  // printf("write Config = 0x%02x\r\n", val);
-  spi_write(MAX31865_REG_CONFIG, val, Port, Pin);
-  
-  val = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
-  // printf("Config = 0x%02x\r\n", val);
+void max31865_init(GPIO_TypeDef *Port, uint16_t Pin) {
+	uint8_t val, rval;
+	val = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
+//   printf("Config = 0x%02x\r\n", val);
+	val = MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_AUTO |
+	MAX31865_CONFIG_3WIRE | MAX31865_CONFIG_50HZ;
+//   printf("write Config = 0x%02x\r\n", val);
+	spi_write(MAX31865_REG_CONFIG, val, Port, Pin);
+
+	rval = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
+	if (val != rval) {
+		printf("Error initialising MAX31865: 0x%02x != 0x%02x\n\r", val, rval);
+	} else {
+		printf("Init ok\r\n");
+	}
+//   printf("Config = 0x%02x\r\n", val);
 
 }
 
-double get_resistance(GPIO_TypeDef * Port, uint16_t Pin)
-{
-    uint16_t rtdval = spi_read16(MAX31865_REG_RTD_MSB, Port, Pin);
-    
-    if ((rtdval & 0x01)) // lowest bit is a fault flag
-    {
-        uint8_t fault = spi_read8(MAX31865_REG_FAULT_STATUS, Port, Pin);
-        printf("Error 0x%02x detected\r\n", fault);
-    }
+double get_resistance(GPIO_TypeDef *Port, uint16_t Pin) {
+	uint16_t rtdval = spi_read16(MAX31865_REG_RTD_MSB, Port, Pin);
+
+	if ((rtdval & 0x01)) // lowest bit is a fault flag
+	{
+		uint8_t fault = spi_read8(MAX31865_REG_FAULT_STATUS, Port, Pin);
+		return 0;
+//        printf("Error 0x%02x detected\r\n", fault);
+	}
 //    printf("raw val = 0x%04x\r\n", rtdval);
-    rtdval >>= 1;  // remove the Fault bit
-    double R = (double)rtdval * (double)RREF / 32768.0;
-    // rtdval /= 32768;
-    // rtdval *= RREF;
-    return R;
+	rtdval >>= 1;  // remove the Fault bit
+	double R = (double) rtdval * (double) RREF / 32768.0;
+	// rtdval /= 32768;
+	// rtdval *= RREF;
+	return R;
 }
 /**
  * Apply the Callendar-Van Dusen equation to convert the RTD resistance
@@ -98,18 +99,20 @@ double get_resistance(GPIO_TypeDef * Port, uint16_t Pin)
  * @param [in] resistance The measured RTD resistance.
  * @return Temperature in degrees Celcius.
  */
-uint8_t max31865_get_temperature(GPIO_TypeDef * Port, uint16_t Pin)
-{
-  static const double a2   = 2.0 * RTD_B;
-  static const double b_sq = RTD_A * RTD_A;
+uint8_t max31865_get_temperature(GPIO_TypeDef *Port, uint16_t Pin) {
+	static const double a2 = 2.0 * RTD_B;
+	static const double b_sq = RTD_A * RTD_A;
 
-  const double rtd_resistance = RTD_RESISTANCE_PT100;
+	const double rtd_resistance = RTD_RESISTANCE_PT100;
+	double r = get_resistance(Port, Pin);
+	if (r > 0) {
+		double c = 1.0 - r / rtd_resistance;
+		double D = b_sq - 2.0 * a2 * c;
+		double temperature_deg_C = (-RTD_A + sqrt(D)) / a2;
 
-  double c = 1.0 - get_resistance(Port, Pin) / rtd_resistance;
-  double D = b_sq - 2.0 * a2 * c;
-  double temperature_deg_C = ( -RTD_A + sqrt( D ) ) / a2;
-
-  return( (uint8_t)temperature_deg_C );
+		return ((uint8_t) temperature_deg_C);
+	} else
+		return 0;
 }
 
 /**
@@ -118,47 +121,46 @@ uint8_t max31865_get_temperature(GPIO_TypeDef * Port, uint16_t Pin)
  *
  * @return Fault status byte
  */
-uint8_t read_all()
-{
-  // uint16_t combined_bytes;
+uint8_t read_all() {
+	// uint16_t combined_bytes;
 
-  // /* Start the read operation. */
-  // digitalWrite( this->cs_pin, LOW );
-  // /* Tell the MAX31865 that we want to read, starting at register 0. */
-  // SPI.transfer( 0x00 );
+	// /* Start the read operation. */
+	// digitalWrite( this->cs_pin, LOW );
+	// /* Tell the MAX31865 that we want to read, starting at register 0. */
+	// SPI.transfer( 0x00 );
 
-  // /* Read the MAX31865 registers in the following order:
-  //      Configuration
-  //      RTD
-  //      High Fault Threshold
-  //      Low Fault Threshold
-  //      Fault Status */
+	// /* Read the MAX31865 registers in the following order:
+	//      Configuration
+	//      RTD
+	//      High Fault Threshold
+	//      Low Fault Threshold
+	//      Fault Status */
 
-  // this->measured_configuration = SPI.transfer( 0x00 );
+	// this->measured_configuration = SPI.transfer( 0x00 );
 
-  // combined_bytes  = SPI.transfer( 0x00 ) << 8;
-  // combined_bytes |= SPI.transfer( 0x00 );
-  // this->measured_resistance = combined_bytes >> 1;
+	// combined_bytes  = SPI.transfer( 0x00 ) << 8;
+	// combined_bytes |= SPI.transfer( 0x00 );
+	// this->measured_resistance = combined_bytes >> 1;
 
-  // combined_bytes  = SPI.transfer( 0x00 ) << 8;
-  // combined_bytes |= SPI.transfer( 0x00 );
-  // this->measured_high_threshold = combined_bytes ;
+	// combined_bytes  = SPI.transfer( 0x00 ) << 8;
+	// combined_bytes |= SPI.transfer( 0x00 );
+	// this->measured_high_threshold = combined_bytes ;
 
-  // combined_bytes  = SPI.transfer( 0x00 ) << 8;
-  // combined_bytes |= SPI.transfer( 0x00 );
-  // this->measured_low_threshold = combined_bytes ;
+	// combined_bytes  = SPI.transfer( 0x00 ) << 8;
+	// combined_bytes |= SPI.transfer( 0x00 );
+	// this->measured_low_threshold = combined_bytes ;
 
-  // this->measured_status = SPI.transfer( 0x00 );
+	// this->measured_status = SPI.transfer( 0x00 );
 
-  // digitalWrite( this->cs_pin, HIGH );
+	// digitalWrite( this->cs_pin, HIGH );
 
-  // /* Reset the configuration if the measured resistance is
-  //    zero or a fault occurred. */
-  // if(   this->measured_resistance == 0 || this->measured_status != 0  )
-  //   reconfigure( true );
+	// /* Reset the configuration if the measured resistance is
+	//    zero or a fault occurred. */
+	// if(   this->measured_resistance == 0 || this->measured_status != 0  )
+	//   reconfigure( true );
 
-  // return( status() );
-  return 0;
+	// return( status() );
+	return 0;
 }
 
 /**
@@ -167,18 +169,17 @@ uint8_t read_all()
  *
  * @return Fault status byte
  */
-uint8_t fault_status()
-{
-  // uint8_t fault_status ;
+uint8_t fault_status() {
+	// uint8_t fault_status ;
 
-  // /* Start the read operation. */
-  // digitalWrite( this->cs_pin, LOW );
-  // /* Tell the MAX31865 that we want to read, starting at register 7. */
-  // SPI.transfer( 0x07 );
-  // fault_status = this->measured_status = SPI.transfer( 0x00 );
-  // digitalWrite( this->cs_pin, HIGH );
-  // return( fault_status );
-  return 0;
+	// /* Start the read operation. */
+	// digitalWrite( this->cs_pin, LOW );
+	// /* Tell the MAX31865 that we want to read, starting at register 7. */
+	// SPI.transfer( 0x07 );
+	// fault_status = this->measured_status = SPI.transfer( 0x00 );
+	// digitalWrite( this->cs_pin, HIGH );
+	// return( fault_status );
+	return 0;
 }
 
 /**
@@ -187,16 +188,15 @@ uint8_t fault_status()
  *
  * @return config register byte
  */
-uint8_t config_register()
-{
-  // uint8_t config_register ;
+uint8_t config_register() {
+	// uint8_t config_register ;
 
-  // /* Start the read operation. */
-  // digitalWrite( this->cs_pin, LOW );
-  // /* Tell the MAX31865 that we want to read, starting at register 0. */
-  // SPI.transfer( 0x00 );
-  // config_register = this->measured_status = SPI.transfer( 0x00 );
-  // digitalWrite( this->cs_pin, HIGH );
-  // return( config_register );
-  return 0;
+	// /* Start the read operation. */
+	// digitalWrite( this->cs_pin, LOW );
+	// /* Tell the MAX31865 that we want to read, starting at register 0. */
+	// SPI.transfer( 0x00 );
+	// config_register = this->measured_status = SPI.transfer( 0x00 );
+	// digitalWrite( this->cs_pin, HIGH );
+	// return( config_register );
+	return 0;
 }

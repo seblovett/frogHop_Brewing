@@ -48,16 +48,21 @@ void kettle::actionPumpChange(bool value)
                                     sizeof(fh_msg_t), 0 );
 }
 
-void kettle::actionSetTempChange(uint8_t value)
+void kettle::actionSetTempChange(int8_t value)
 {
     fh_msg_t msg; 
-    touchgfx_printf("Set Temp = %d \n", value);
-    Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, "%d", value);
-    textSetTemp.invalidate();
+    int newSetTemp = setTemp + value;
+//    setTemp += value;
+    if(newSetTemp > 100)
+    	newSetTemp = 100;
+    if (newSetTemp < 0)
+    	newSetTemp = 0;
+
+    setSetTemp(newSetTemp);
 
     msg.id = SET_TEMPERATURE;
     msg.kettle_id = selectedKettleID;
-    msg.value = value;
+    msg.value = (uint8_t)setTemp;
     xMessageBufferSend( xMessageBuffer,
                                     ( void * ) &msg,
                                     sizeof(fh_msg_t), 0 );
@@ -91,7 +96,7 @@ void kettle::actionPumpChange(bool value)
     
 }
 
-void kettle::actionSetTempChange(uint8_t value)
+void kettle::actionSetTempChange(int8_t value)
 {
     touchgfx_printf("Set Temp = %d \n", value);
     Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, "%d", value);
@@ -123,7 +128,7 @@ void kettle::getData(kettle_data_t * data)
     if(NULL== data)
         return; 
     data->id = selectedKettleID;
-    data->setTemp = sliderTemperature.getValue();
+    data->setTemp = setTemp;
     data->currentTemp = currentTemp;
     data->heaterEnabled = heaterToggle.getState();
     data->pumpEnabled = pumpToggle.getState();
@@ -135,11 +140,11 @@ void kettle::setData(kettle_data_t * data)
     if(NULL== data)
         return; 
     setNumber(data->id);
-    sliderTemperature.setValue(data->setTemp);
     heaterToggle.forceState(data->heaterEnabled);
     pumpToggle.forceState(data->pumpEnabled);
     imageHeatlines.setVisible(data->heaterOn);
     setCurrentTemp(data->currentTemp);
+    setSetTemp(data->setTemp);
 }
 
 void kettle::setCurrentTemp(uint8_t temp)
@@ -147,4 +152,12 @@ void kettle::setCurrentTemp(uint8_t temp)
     currentTemp = temp;
     Unicode::snprintf(textCurrentTempBuffer, TEXTCURRENTTEMP_SIZE, "%d", temp);
     textCurrentTemp.invalidate();
+}
+
+void kettle::setSetTemp(uint8_t temp)
+{
+	touchgfx_printf("Set Temp = %d \n", temp);
+	setTemp = temp;
+	Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, "%d", setTemp);
+	textSetTemp.invalidate();
 }

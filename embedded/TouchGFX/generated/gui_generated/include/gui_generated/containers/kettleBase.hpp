@@ -9,9 +9,9 @@
 #include <touchgfx/widgets/ToggleButton.hpp>
 #include <touchgfx/widgets/Image.hpp>
 #include <touchgfx/widgets/TextAreaWithWildcard.hpp>
-#include <touchgfx/containers/Slider.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
 #include <touchgfx/containers/clock/DigitalClock.hpp>
+#include <touchgfx/widgets/Button.hpp>
 
 class kettleBase : public touchgfx::Container
 {
@@ -24,7 +24,7 @@ public:
      * Custom Actions
      */
     virtual void actionPumpChange(bool value);
-    virtual void actionSetTempChange(uint8_t value);
+    virtual void actionSetTempChange(int8_t value);
     virtual void actionHeaterChange(bool value);
 
 protected:
@@ -39,7 +39,6 @@ protected:
     touchgfx::Image image1;
     touchgfx::TextAreaWithOneWildcard kettleName;
     touchgfx::ToggleButton heaterToggle;
-    touchgfx::Slider sliderTemperature;
     touchgfx::TextAreaWithOneWildcard textSetTemp;
     touchgfx::TextArea textAreaSetLabel;
     touchgfx::TextAreaWithOneWildcard textCurrentTemp;
@@ -47,6 +46,10 @@ protected:
     touchgfx::DigitalClock timer;
     touchgfx::TextArea textAreaTimerLabel;
     touchgfx::Image imageHeatlines;
+    touchgfx::Button buttonup_10;
+    touchgfx::Button buttonup_1;
+    touchgfx::Button buttondown_1;
+    touchgfx::Button buttondown_10;
 
     /*
      * Wildcard Buffers
@@ -64,15 +67,11 @@ private:
      * Callback Declarations
      */
     touchgfx::Callback<kettleBase, const touchgfx::AbstractButton&> buttonCallback;
-    touchgfx::Callback<kettleBase, const touchgfx::Slider&, int> sliderValueChangedCallback;
-    touchgfx::Callback<kettleBase, const touchgfx::Slider&, int> sliderValueConfirmedCallback;
 
     /*
      * Callback Handler Declarations
      */
     void buttonCallbackHandler(const touchgfx::AbstractButton& src);
-    void sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value);
-    void sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value);
 
 };
 

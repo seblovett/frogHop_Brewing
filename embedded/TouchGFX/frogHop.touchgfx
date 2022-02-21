@@ -350,32 +350,6 @@
             "Moveable": false
           },
           {
-            "Type": "Slider",
-            "IsHorizontalSlider": false,
-            "BackgroundUnselected": "__designer\\Blue_Slider_Vertical_Small_Slider3_Vertical_Round_back.png",
-            "BackgroundSelected": "__designer\\Blue_Slider_Vertical_Small_Slider3_Vertical_Round_fill.png",
-            "Indicator": "__designer\\Blue_Slider_Vertical_Small_Indicators_Slider3_Vertical_Round_nob.png",
-            "BackgroundX": 7,
-            "BackgroundY": 3,
-            "IndicatorPos": 0,
-            "IndicatorMax": 125,
-            "IndicatorMin": 0,
-            "ValueMax": 100,
-            "ValueMin": 0,
-            "InitValue": 0,
-            "Name": "sliderTemperature",
-            "X": 435,
-            "Y": 76,
-            "Width": 34,
-            "Height": 179,
-            "Visible": true,
-            "LockPosition": false,
-            "Draggable": false,
-            "Clickable": false,
-            "Fadeable": false,
-            "Moveable": false
-          },
-          {
             "Type": "TextArea",
             "TextId": "SingleUseId7",
             "TextRotation": "0",
@@ -547,6 +521,74 @@
             "Clickable": false,
             "Fadeable": false,
             "Moveable": false
+          },
+          {
+            "Type": "Button",
+            "Pressed": "Up_arrow_pressed.png",
+            "Released": "Up_arrow.png",
+            "Alpha": 255,
+            "Name": "buttonup_10",
+            "X": 442,
+            "Y": 73,
+            "Width": 32,
+            "Height": 19,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Button",
+            "Pressed": "Up_arrow_pressed.png",
+            "Released": "Up_arrow.png",
+            "Alpha": 255,
+            "Name": "buttonup_1",
+            "X": 442,
+            "Y": 143,
+            "Width": 32,
+            "Height": 19,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Button",
+            "Pressed": "Down_arrow_pressed.png",
+            "Released": "Down_arrow.png",
+            "Alpha": 255,
+            "Name": "buttondown_1",
+            "X": 442,
+            "Y": 175,
+            "Width": 32,
+            "Height": 19,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
+          },
+          {
+            "Type": "Button",
+            "Pressed": "Down_arrow_pressed.png",
+            "Released": "Down_arrow.png",
+            "Alpha": 255,
+            "Name": "buttondown_10",
+            "X": 442,
+            "Y": 233,
+            "Width": 32,
+            "Height": 19,
+            "Visible": true,
+            "LockPosition": false,
+            "Draggable": false,
+            "Clickable": false,
+            "Fadeable": false,
+            "Moveable": false
           }
         ],
         "Interactions": [
@@ -565,32 +607,6 @@
             }
           },
           {
-            "InteractionName": "InteractionSetTemperature",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerSliderValueConfirmed",
-              "TriggerComponent": "sliderTemperature"
-            },
-            "Action": {
-              "Type": "ActionCustom2",
-              "ActionCustomTypeName": "Call kettle actionSetTempChange",
-              "ParameterValue": "value",
-              "ActionComponent": "kettle"
-            }
-          },
-          {
-            "InteractionName": "InteractionSetTempUpdate",
-            "HasCompletedTrigger": false,
-            "Trigger": {
-              "Type": "TriggerSliderValueChanged",
-              "TriggerComponent": "sliderTemperature"
-            },
-            "Action": {
-              "Type": "ActionExecuteCode",
-              "Code": "Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, \"%d\", value);\r\ntextSetTemp.invalidate();"
-            }
-          },
-          {
             "InteractionName": "InteractionHeater",
             "HasCompletedTrigger": false,
             "Trigger": {
@@ -601,6 +617,62 @@
               "Type": "ActionCustom2",
               "ActionCustomTypeName": "Call kettle actionHeaterChange",
               "ParameterValue": "heaterToggle.getState()",
+              "ActionComponent": "kettle"
+            }
+          },
+          {
+            "InteractionName": "Interaction_up_1",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonup_1"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call kettle actionSetTempChange",
+              "ParameterValue": "1",
+              "ActionComponent": "kettle"
+            }
+          },
+          {
+            "InteractionName": "Interaction_up_10",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttonup_10"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call kettle actionSetTempChange",
+              "ParameterValue": "10",
+              "ActionComponent": "kettle"
+            }
+          },
+          {
+            "InteractionName": "Interaction_down_1",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttondown_1"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call kettle actionSetTempChange",
+              "ParameterValue": "-1",
+              "ActionComponent": "kettle"
+            }
+          },
+          {
+            "InteractionName": "Interaction_down_10",
+            "HasCompletedTrigger": false,
+            "Trigger": {
+              "Type": "TriggerClicked",
+              "TriggerComponent": "buttondown_10"
+            },
+            "Action": {
+              "Type": "ActionCustom2",
+              "ActionCustomTypeName": "Call kettle actionSetTempChange",
+              "ParameterValue": "-10",
               "ActionComponent": "kettle"
             }
           }
@@ -615,7 +687,7 @@
           {
             "Name": "actionSetTempChange",
             "HasValue": true,
-            "ValueType": "uint8_t"
+            "ValueType": "int8_t"
           },
           {
             "Name": "actionHeaterChange",

@@ -44,11 +44,12 @@ public:
     }
     virtual void actionHeaterChange(bool value);
     virtual void actionPumpChange(bool value);
-    void actionSetTempChange(uint8_t value);
+    void actionSetTempChange(int8_t value);
     void getData(kettle_data_t *data);
     void setData(kettle_data_t * data);
     void setCurrentTemp(uint8_t temp);
     void setHeatlines(bool value);
+    void setSetTemp(uint8_t temp);
     // void setHeaterToggle(bool value);
     // bool getHeaterToggle();
     // void setPumpToggle(bool value);
@@ -56,6 +57,7 @@ public:
 protected:
     int selectedKettleID;// = HLT;
     int currentTemp;// = HLT;
+    int setTemp;
 };
 
 #endif // KETTLE_HPP

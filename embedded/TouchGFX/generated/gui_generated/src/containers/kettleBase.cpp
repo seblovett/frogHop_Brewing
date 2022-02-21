@@ -7,9 +7,7 @@
 #include <touchgfx/Color.hpp>
 
 kettleBase::kettleBase() :
-    buttonCallback(this, &kettleBase::buttonCallbackHandler),
-    sliderValueChangedCallback(this, &kettleBase::sliderValueChangedCallbackHandler),
-    sliderValueConfirmedCallback(this, &kettleBase::sliderValueConfirmedCallbackHandler)
+    buttonCallback(this, &kettleBase::buttonCallbackHandler)
 {
     setWidth(480);
     setHeight(272);
@@ -30,14 +28,6 @@ kettleBase::kettleBase() :
     heaterToggle.setXY(304, 146);
     heaterToggle.setBitmaps(touchgfx::Bitmap(BITMAP_HEATER_OFF_ID), touchgfx::Bitmap(BITMAP_HEATER_ON_ID));
     heaterToggle.setAction(buttonCallback);
-
-    sliderTemperature.setXY(435, 76);
-    sliderTemperature.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_SLIDER_VERTICAL_SMALL_SLIDER3_VERTICAL_ROUND_BACK_ID), touchgfx::Bitmap(BITMAP_BLUE_SLIDER_VERTICAL_SMALL_SLIDER3_VERTICAL_ROUND_FILL_ID), touchgfx::Bitmap(BITMAP_BLUE_SLIDER_VERTICAL_SMALL_INDICATORS_SLIDER3_VERTICAL_ROUND_NOB_ID));
-    sliderTemperature.setupVerticalSlider(7, 3, 0, 0, 125);
-    sliderTemperature.setValueRange(0, 100);
-    sliderTemperature.setValue(0);
-    sliderTemperature.setNewValueCallback(sliderValueChangedCallback);
-    sliderTemperature.setStopValueCallback(sliderValueConfirmedCallback);
 
     textSetTemp.setXY(101, 111);
     textSetTemp.setColor(touchgfx::Color::getColorFrom24BitRGB(196, 196, 196));
@@ -80,11 +70,26 @@ kettleBase::kettleBase() :
     imageHeatlines.setXY(313, 106);
     imageHeatlines.setBitmap(touchgfx::Bitmap(BITMAP_HEAT_LINES_ID));
 
+    buttonup_10.setXY(442, 73);
+    buttonup_10.setBitmaps(touchgfx::Bitmap(BITMAP_UP_ARROW_ID), touchgfx::Bitmap(BITMAP_UP_ARROW_PRESSED_ID));
+    buttonup_10.setAction(buttonCallback);
+
+    buttonup_1.setXY(442, 143);
+    buttonup_1.setBitmaps(touchgfx::Bitmap(BITMAP_UP_ARROW_ID), touchgfx::Bitmap(BITMAP_UP_ARROW_PRESSED_ID));
+    buttonup_1.setAction(buttonCallback);
+
+    buttondown_1.setXY(442, 175);
+    buttondown_1.setBitmaps(touchgfx::Bitmap(BITMAP_DOWN_ARROW_ID), touchgfx::Bitmap(BITMAP_DOWN_ARROW_PRESSED_ID));
+    buttondown_1.setAction(buttonCallback);
+
+    buttondown_10.setXY(442, 233);
+    buttondown_10.setBitmaps(touchgfx::Bitmap(BITMAP_DOWN_ARROW_ID), touchgfx::Bitmap(BITMAP_DOWN_ARROW_PRESSED_ID));
+    buttondown_10.setAction(buttonCallback);
+
     add(pumpToggle);
     add(image1);
     add(kettleName);
     add(heaterToggle);
-    add(sliderTemperature);
     add(textSetTemp);
     add(textAreaSetLabel);
     add(textCurrentTemp);
@@ -92,6 +97,10 @@ kettleBase::kettleBase() :
     add(timer);
     add(textAreaTimerLabel);
     add(imageHeatlines);
+    add(buttonup_10);
+    add(buttonup_1);
+    add(buttondown_1);
+    add(buttondown_10);
 }
 
 void kettleBase::initialize()
@@ -104,7 +113,7 @@ void kettleBase::actionPumpChange(bool value)
 
 }
 
-void kettleBase::actionSetTempChange(uint8_t value)
+void kettleBase::actionSetTempChange(int8_t value)
 {
 
 }
@@ -130,28 +139,33 @@ void kettleBase::buttonCallbackHandler(const touchgfx::AbstractButton& src)
         //Call actionHeaterChange
         actionHeaterChange(heaterToggle.getState());
     }
-}
-
-void kettleBase::sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value)
-{
-    if (&src == &sliderTemperature)
+    else if (&src == &buttonup_10)
     {
-        //InteractionSetTempUpdate
-        //When sliderTemperature value changed execute C++ code
-        //Execute C++ code
-        Unicode::snprintf(textSetTempBuffer, TEXTSETTEMP_SIZE, "%d", value);
-        textSetTemp.invalidate();
-    }
-}
-
-void kettleBase::sliderValueConfirmedCallbackHandler(const touchgfx::Slider& src, int value)
-{
-    if (&src == &sliderTemperature)
-    {
-        //InteractionSetTemperature
-        //When sliderTemperature value confirmed call actionSetTempChange on kettle
+        //Interaction_up_10
+        //When buttonup_10 clicked call actionSetTempChange on kettle
         //Call actionSetTempChange
-        actionSetTempChange(value);
+        actionSetTempChange(10);
+    }
+    else if (&src == &buttonup_1)
+    {
+        //Interaction_up_1
+        //When buttonup_1 clicked call actionSetTempChange on kettle
+        //Call actionSetTempChange
+        actionSetTempChange(1);
+    }
+    else if (&src == &buttondown_1)
+    {
+        //Interaction_down_1
+        //When buttondown_1 clicked call actionSetTempChange on kettle
+        //Call actionSetTempChange
+        actionSetTempChange(-1);
+    }
+    else if (&src == &buttondown_10)
+    {
+        //Interaction_down_10
+        //When buttondown_10 clicked call actionSetTempChange on kettle
+        //Call actionSetTempChange
+        actionSetTempChange(-10);
     }
 }
 

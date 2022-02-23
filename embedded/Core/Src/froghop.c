@@ -6,6 +6,7 @@
 kettle_data_t kettles[NUM_KETTLES];
 
 void print_kettle_info() {
+//	printf("\"ticks\":%lu,", xTaskGetTickCount());
 	printf("{\"kettles\":[");
 	for (int i = 0; i < NUM_KETTLES; i++) {
 		if (i)
@@ -100,7 +101,7 @@ void update_gpios() {
 }
 
 void handle_message(fh_msg_t *msg) {
-	printf("Kettle: %d : ", msg->kettle_id);
+//	printf("Kettle: %d : ", msg->kettle_id);
 	if (msg->kettle_id > NUM_KETTLES)
 		return;
 	switch (msg->id) {
@@ -120,7 +121,7 @@ void handle_message(fh_msg_t *msg) {
 		kettles[msg->kettle_id].setTemp = msg->value;
 		break;
 	case BUTTON:
-//      printf("Button =%d\r\n", msg->value);
+      printf("Button =%d\r\n", msg->value);
 		break;
 	}
 
@@ -135,7 +136,7 @@ void Control_Task(void *argument) {
 	kettles[MLT].id = MLT;
 	kettles[BOILER].id = BOILER;
 	while (1) {
-//		printf("C\r\n");
+
 		print_kettle_info();
 		fh_msg_t msg;
 		size_t xReceivedBytes;
@@ -150,25 +151,33 @@ void Control_Task(void *argument) {
 		temperature_control();
 		update_gpios();
 		read_temps();
+	  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+	  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+	  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 	}
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-//  fh_msg_t msg;
-//  msg.id = BUTTON;
-//  msg.kettle_id = 0;
-//  BaseType_t pxHigherPriorityTaskWoken = pdFALSE;
-//  switch(GPIO_Pin)
-//  {
-//    case BUTTON_RED_Pin:
-//      msg.value = BUTTON_RIGHT;
-//      break;
-//    case BUTTON_BLACK_Pin:
-//      msg.value = BUTTON_CENTRE;
-//      break;
-//    case BUTTON_GREEN_Pin:
-//      msg.value = BUTTON_LEFT;
-//      break;
-//  }
-//  xMessageBufferSendFromISR(C2G_BufferHandle, (void *) &msg, sizeof(msg), &pxHigherPriorityTaskWoken);
+	  HAL_NVIC_DisableIRQ(EXTI0_IRQn);
+	  HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
+	  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+	fh_msg_t msg;
+  msg.id = BUTTON;
+  msg.kettle_id = 0;
+  BaseType_t pxHigherPriorityTaskWoken = pdFALSE;
+  switch(GPIO_Pin)
+  {
+    case BUTTON_RED_Pin:
+      msg.value = BUTTON_RIGHT;
+      break;
+    case BUTTON_BLACK_Pin:
+      msg.value = BUTTON_CENTRE;
+      break;
+    case BUTTON_GREEN_Pin:
+      msg.value = BUTTON_LEFT;
+      break;
+  }
+  xMessageBufferSendFromISR(xMessageBuffer, (void *) &msg, sizeof(msg), &pxHigherPriorityTaskWoken);
+
 }

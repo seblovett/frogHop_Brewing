@@ -792,23 +792,29 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : BUTTON_BLACK_Pin */
-  GPIO_InitStruct.Pin = BUTTON_BLACK_Pin;
+  /*Configure GPIO pin : ROTARY_DET_Pin */
+  GPIO_InitStruct.Pin = ROTARY_DET_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(ROTARY_DET_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : ROTARY_SW_Pin BUTTON_BLACK_Pin BUTTON_BOTTOM_Pin */
+  GPIO_InitStruct.Pin = ROTARY_SW_Pin|BUTTON_BLACK_Pin|BUTTON_BOTTOM_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(BUTTON_BLACK_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : ROTARY_CW_Pin */
+  GPIO_InitStruct.Pin = ROTARY_CW_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(ROTARY_CW_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : BUTTON_GREEN_Pin */
   GPIO_InitStruct.Pin = BUTTON_GREEN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(BUTTON_GREEN_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : BUTTON_RED_Pin */
-  GPIO_InitStruct.Pin = BUTTON_RED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(BUTTON_RED_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);

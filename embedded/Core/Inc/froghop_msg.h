@@ -16,9 +16,13 @@ extern MessageBufferHandle_t C2G_BufferHandle;
 #define HLT 2
 #define NUM_KETTLES 3
 
-#define BUTTON_LEFT    1
-#define BUTTON_CENTRE  2
-#define BUTTON_RIGHT   3
+#define BUTTON_TOP    1
+#define BUTTON_MIDDLE  2
+#define BUTTON_BOTTOM   3
+#define BUTTON_ROTARY	4
+#define ROTARY_CW		5
+#define ROTARY_ACW		6
+
 typedef enum {
     NO_OP = 0,
     HEATER_ENABLE = 1,

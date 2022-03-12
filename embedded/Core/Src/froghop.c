@@ -5,9 +5,10 @@
 
 kettle_data_t kettles[NUM_KETTLES];
 
-void print_kettle_info() {
-//	printf("\"ticks\":%lu,", xTaskGetTickCount());
-	printf("{\"kettles\":[");
+void print_kettle_info_json() {
+	printf("{\"ms\":%lu,", HAL_GetTick());
+
+	printf("\"kettles\":[");
 	for (int i = 0; i < NUM_KETTLES; i++) {
 		if (i)
 			printf(",");
@@ -40,6 +41,46 @@ void print_kettle_info() {
 	printf("]}\n\r");
 
 }
+
+void print_kettle_info_csv() {
+	static uint8_t headerPrinted = 0;
+	if (headerPrinted == 0) {
+		printf(
+				"time(ms),kettle id,set temp, current temp, heater enabled, pump enabled, heater on,kettle id,set temp, current temp, heater enabled, pump enabled, heater on,kettle id,set temp, current temp, heater enabled, pump enabled, heater on\r\n");
+		headerPrinted = 1;
+	}
+	printf("/*%lu,", HAL_GetTick());
+
+	for (int i = 0; i < NUM_KETTLES; i++) {
+		if (i)
+			printf(",");
+		kettle_data_t *k = &kettles[i];
+
+		printf("%d,", k->id);
+		printf("%d,", k->setTemp);
+		printf("%d,", k->currentTemp);
+
+		if (k->heaterEnabled)
+			printf("1,");
+		else
+			printf("0,");
+
+		if (k->pumpEnabled)
+			printf("1,");
+		else
+			printf("0,");
+
+		if (k->heaterOn)
+			printf("1");
+		else
+			printf("0");
+
+	}
+
+	printf("*/\n\r");
+
+}
+
 void read_temps() {
 	fh_msg_t msg;
 	msg.id = CURRENT_TEMPERATURE;
@@ -121,7 +162,28 @@ void handle_message(fh_msg_t *msg) {
 		kettles[msg->kettle_id].setTemp = msg->value;
 		break;
 	case BUTTON:
-      printf("Button =%d\r\n", msg->value);
+		printf("Button =%d\r\n", msg->value);
+		switch (msg->value) {
+		case BUTTON_TOP:
+			HAL_GPIO_TogglePin(LCD_BL_CTRL_GPIO_Port, LCD_BL_CTRL_Pin);
+			HAL_GPIO_TogglePin(LCD_DISP_GPIO_Port, LCD_DISP_Pin);
+			break;
+		case BUTTON_MIDDLE:
+			//disable everything
+			for(int i = 0; i < NUM_KETTLES; i++){
+				kettles[i].pumpEnbabled = 0;
+				kettles[i].heaterEnbabled = 0;
+			}
+			break;
+		case BUTTON_BOTTOM:
+			break;
+		case BUTTON_ROTARY:
+			break;
+		case ROTARY_CW:
+			break;
+		case ROTARY_ACW:
+			break;
+		}
 		break;
 	}
 
@@ -137,7 +199,7 @@ void Control_Task(void *argument) {
 	kettles[BOILER].id = BOILER;
 	while (1) {
 
-		print_kettle_info();
+		print_kettle_info_csv();
 		fh_msg_t msg;
 		size_t xReceivedBytes;
 		const TickType_t xBlockTime = pdMS_TO_TICKS(1000);
@@ -148,36 +210,46 @@ void Control_Task(void *argument) {
 		if (xReceivedBytes > 0) {
 			handle_message(&msg);
 		}
+
 		temperature_control();
 		update_gpios();
 		read_temps();
-	  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-	  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 	}
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	  HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-	  HAL_NVIC_DisableIRQ(EXTI9_5_IRQn);
-	  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
 	fh_msg_t msg;
-  msg.id = BUTTON;
-  msg.kettle_id = 0;
-  BaseType_t pxHigherPriorityTaskWoken = pdFALSE;
-  switch(GPIO_Pin)
-  {
-    case BUTTON_RED_Pin:
-      msg.value = BUTTON_RIGHT;
-      break;
-    case BUTTON_BLACK_Pin:
-      msg.value = BUTTON_CENTRE;
-      break;
-    case BUTTON_GREEN_Pin:
-      msg.value = BUTTON_LEFT;
-      break;
-  }
-  xMessageBufferSendFromISR(xMessageBuffer, (void *) &msg, sizeof(msg), &pxHigherPriorityTaskWoken);
+	msg.id = BUTTON;
+	msg.kettle_id = 0;
+	BaseType_t pxHigherPriorityTaskWoken = pdFALSE;
+	switch (GPIO_Pin) {
+	case BUTTON_BOTTOM_Pin:
+		msg.value = BUTTON_BOTTOM;
+		break;
+	case BUTTON_BLACK_Pin:
+		msg.value = BUTTON_MIDDLE;
+		break;
+	case BUTTON_GREEN_Pin:
+		msg.value = BUTTON_TOP;
+		break;
+	case ROTARY_SW_Pin:
+		msg.value = BUTTON_ROTARY;
+		break;
+	case ROTARY_DET_Pin:
+		if (HAL_GPIO_ReadPin(ROTARY_CW_GPIO_Port, ROTARY_CW_Pin) == 1) {
+			msg.value = ROTARY_ACW;
+		} else {
+			msg.value = ROTARY_CW;
+		}
+		break;
+
+	default:
+		printf("Unexpected interrupt %x", GPIO_Pin);
+		msg.value = 255;
+		break;
+	}
+	xMessageBufferSendFromISR(xMessageBuffer, (void* ) &msg, sizeof(msg),
+				&pxHigherPriorityTaskWoken);
 
 }

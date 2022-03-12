@@ -68,6 +68,45 @@ void kettle::actionSetTempChange(int8_t value)
                                     sizeof(fh_msg_t), 0 );
 }
 
+void kettle::incrementSetTemp()
+{
+        fh_msg_t msg; 
+    int newSetTemp = setTemp + 1;
+//    setTemp += value;
+    if(newSetTemp > 100)
+    	newSetTemp = 100;
+    if (newSetTemp < 0)
+    	newSetTemp = 0;
+
+    setSetTemp(newSetTemp);
+
+    msg.id = SET_TEMPERATURE;
+    msg.kettle_id = selectedKettleID;
+    msg.value = (uint8_t)setTemp;
+    xMessageBufferSend( xMessageBuffer,
+                                    ( void * ) &msg,
+                                    sizeof(fh_msg_t), 0 );
+}
+
+void kettle::decrementSetTemp()
+{
+        fh_msg_t msg; 
+    int newSetTemp = setTemp - 1;
+//    setTemp += value;
+    if(newSetTemp > 100)
+    	newSetTemp = 100;
+    if (newSetTemp < 0)
+    	newSetTemp = 0;
+
+    setSetTemp(newSetTemp);
+
+    msg.id = SET_TEMPERATURE;
+    msg.kettle_id = selectedKettleID;
+    msg.value = (uint8_t)setTemp;
+    xMessageBufferSend( xMessageBuffer,
+                                    ( void * ) &msg,
+                                    sizeof(fh_msg_t), 0 );
+}
 
 #else
 

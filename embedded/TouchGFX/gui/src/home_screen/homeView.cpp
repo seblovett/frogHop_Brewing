@@ -161,20 +161,17 @@ static int ticks = 0;
                 kettle1.setHeatlines(msg.value ? true : false);
             break;    
         case BUTTON:
-            switch(msg.value)
-            {
-                case BUTTON_LEFT:
-                    functionButtonLeft();
+           switch(msg.value)
+           {
+               case ROTARY_CW:
+                    kettle1.incrementSetTemp();
                     break;
-                case BUTTON_CENTRE:
-                    
-                    break;
-                case BUTTON_RIGHT:
-                    functionKettleRight();
-                    break;
-                default:
-                    break;
-            }
+               case ROTARY_ACW:
+                    kettle1.decrementSetTemp();
+                   break;
+               default:
+                   break;
+           }
             break;
         default:
             break;

@@ -171,8 +171,8 @@ void handle_message(fh_msg_t *msg) {
 		case BUTTON_MIDDLE:
 			//disable everything
 			for(int i = 0; i < NUM_KETTLES; i++){
-				kettles[i].pumpEnbabled = 0;
-				kettles[i].heaterEnbabled = 0;
+				kettles[i].pumpEnabled = 0;
+				kettles[i].heaterEnabled = 0;
 			}
 			break;
 		case BUTTON_BOTTOM:
@@ -180,10 +180,22 @@ void handle_message(fh_msg_t *msg) {
 		case BUTTON_ROTARY:
 			break;
 		case ROTARY_CW:
+		{
+			fh_msg_t new_msg;
+			new_msg.id = BUTTON;
+			new_msg.value = ROTARY_CW;
+			xMessageBufferSend(C2G_BufferHandle, (void* ) &new_msg, sizeof(fh_msg_t), 0);
+		}
 			break;
 		case ROTARY_ACW:
-			break;
+		{
+			fh_msg_t new_msg;
+			new_msg.id = BUTTON;
+			new_msg.value = ROTARY_ACW;
+			xMessageBufferSend(C2G_BufferHandle, (void* ) &new_msg, sizeof(fh_msg_t), 0);
 		}
+		break;
+	}
 		break;
 	}
 

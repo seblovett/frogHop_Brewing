@@ -50,6 +50,9 @@ public:
     void setCurrentTemp(uint8_t temp);
     void setHeatlines(bool value);
     void setSetTemp(uint8_t temp);
+    void incrementSetTemp();
+    void decrementSetTemp();
+
     // void setHeaterToggle(bool value);
     // bool getHeaterToggle();
     // void setPumpToggle(bool value);

@@ -13,6 +13,8 @@
 #define RREF 430  // reference resistor in Ohms
 #define RTD_NOM 100
 
+#define DEFAULT_CONFIG (MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_AUTO |	MAX31865_CONFIG_3WIRE | MAX31865_CONFIG_50HZ)
+
 void spi_write(uint8_t reg, uint8_t val, GPIO_TypeDef *Port, uint16_t Pin) {
 	uint8_t tx[2] = { 0 };
 	uint8_t rx[2] = { 0 };
@@ -48,10 +50,9 @@ void max31865_init(GPIO_TypeDef *Port, uint16_t Pin) {
 	uint8_t val, rval;
 	val = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
 //   printf("Config = 0x%02x\r\n", val);
-	val = MAX31865_CONFIG_VBIAS | MAX31865_CONFIG_AUTO |
-	MAX31865_CONFIG_3WIRE | MAX31865_CONFIG_50HZ;
+	
 //   printf("write Config = 0x%02x\r\n", val);
-	spi_write(MAX31865_REG_CONFIG, val, Port, Pin);
+	spi_write(MAX31865_REG_CONFIG, DEFAULT_CONFIG, Port, Pin);
 
 	rval = spi_read8(MAX31865_REG_CONFIG, Port, Pin);
 	if (val != rval) {
@@ -69,14 +70,16 @@ double get_resistance(GPIO_TypeDef *Port, uint16_t Pin) {
 	if ((rtdval & 0x01)) // lowest bit is a fault flag
 	{
 		uint8_t fault = spi_read8(MAX31865_REG_FAULT_STATUS, Port, Pin);
+       printf("Error 0x%02x detected\r\n", fault);
+	   if(fault & 0xC0)
+	   {
+		   //attempt to clear it
+			spi_write(MAX31865_REG_CONFIG, DEFAULT_CONFIG | MAX31865_CONFIG_FAULT_CLEAR, Port, Pin);
+	   }
 		return 0;
-//        printf("Error 0x%02x detected\r\n", fault);
 	}
-//    printf("raw val = 0x%04x\r\n", rtdval);
 	rtdval >>= 1;  // remove the Fault bit
 	double R = (double) rtdval * (double) RREF / 32768.0;
-	// rtdval /= 32768;
-	// rtdval *= RREF;
 	return R;
 }
 /**
